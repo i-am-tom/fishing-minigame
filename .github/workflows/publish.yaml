@@ -1,0 +1,36 @@
+name: Publish
+
+on:
+  push:
+    #     branches:
+    #       - main
+
+jobs:
+  github-pages:
+    name: GitHub Pages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Set up the Elm environment
+      uses: jorelali/setup-elm@v6
+      with:
+        elm-version: 0.19.1
+
+    - name: Install `just`
+      uses: extractions/setup-just@v2
+
+    - name: Check out the repository
+      uses: actions/checkout@v3
+
+    - name: Create the build directory
+      run: mkdir -p build
+
+    - name: Build the project
+      run: elm make src/Main.elm --optimize --output=build/main.js
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: build
