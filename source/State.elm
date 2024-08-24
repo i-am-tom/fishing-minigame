@@ -20,7 +20,8 @@ initial =
 serialize : State -> Encode.Value
 serialize state =
     Encode.object
-        [ ( "money", Encode.float state.money )
+        [ ( "fish", Encode.float state.fish )
+        , ( "money", Encode.float state.money )
         ]
 
 
