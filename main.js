@@ -80,87 +80,6 @@ function A9(fun, a, b, c, d, e, f, g, h, i) {
 
 
 
-var _List_Nil = { $: 0 };
-var _List_Nil_UNUSED = { $: '[]' };
-
-function _List_Cons(hd, tl) { return { $: 1, a: hd, b: tl }; }
-function _List_Cons_UNUSED(hd, tl) { return { $: '::', a: hd, b: tl }; }
-
-
-var _List_cons = F2(_List_Cons);
-
-function _List_fromArray(arr)
-{
-	var out = _List_Nil;
-	for (var i = arr.length; i--; )
-	{
-		out = _List_Cons(arr[i], out);
-	}
-	return out;
-}
-
-function _List_toArray(xs)
-{
-	for (var out = []; xs.b; xs = xs.b) // WHILE_CONS
-	{
-		out.push(xs.a);
-	}
-	return out;
-}
-
-var _List_map2 = F3(function(f, xs, ys)
-{
-	for (var arr = []; xs.b && ys.b; xs = xs.b, ys = ys.b) // WHILE_CONSES
-	{
-		arr.push(A2(f, xs.a, ys.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map3 = F4(function(f, xs, ys, zs)
-{
-	for (var arr = []; xs.b && ys.b && zs.b; xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A3(f, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map4 = F5(function(f, ws, xs, ys, zs)
-{
-	for (var arr = []; ws.b && xs.b && ys.b && zs.b; ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A4(f, ws.a, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map5 = F6(function(f, vs, ws, xs, ys, zs)
-{
-	for (var arr = []; vs.b && ws.b && xs.b && ys.b && zs.b; vs = vs.b, ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A5(f, vs.a, ws.a, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_sortBy = F2(function(f, xs)
-{
-	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
-		return _Utils_cmp(f(a), f(b));
-	}));
-});
-
-var _List_sortWith = F2(function(f, xs)
-{
-	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
-		var ord = A2(f, a, b);
-		return ord === $elm$core$Basics$EQ ? 0 : ord === $elm$core$Basics$LT ? -1 : 1;
-	}));
-});
-
-
-
 var _JsArray_empty = [];
 
 function _JsArray_singleton(value)
@@ -790,6 +709,87 @@ function _Utils_ap(xs, ys)
 	}
 	return root;
 }
+
+
+
+var _List_Nil = { $: 0 };
+var _List_Nil_UNUSED = { $: '[]' };
+
+function _List_Cons(hd, tl) { return { $: 1, a: hd, b: tl }; }
+function _List_Cons_UNUSED(hd, tl) { return { $: '::', a: hd, b: tl }; }
+
+
+var _List_cons = F2(_List_Cons);
+
+function _List_fromArray(arr)
+{
+	var out = _List_Nil;
+	for (var i = arr.length; i--; )
+	{
+		out = _List_Cons(arr[i], out);
+	}
+	return out;
+}
+
+function _List_toArray(xs)
+{
+	for (var out = []; xs.b; xs = xs.b) // WHILE_CONS
+	{
+		out.push(xs.a);
+	}
+	return out;
+}
+
+var _List_map2 = F3(function(f, xs, ys)
+{
+	for (var arr = []; xs.b && ys.b; xs = xs.b, ys = ys.b) // WHILE_CONSES
+	{
+		arr.push(A2(f, xs.a, ys.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map3 = F4(function(f, xs, ys, zs)
+{
+	for (var arr = []; xs.b && ys.b && zs.b; xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A3(f, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map4 = F5(function(f, ws, xs, ys, zs)
+{
+	for (var arr = []; ws.b && xs.b && ys.b && zs.b; ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A4(f, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map5 = F6(function(f, vs, ws, xs, ys, zs)
+{
+	for (var arr = []; vs.b && ws.b && xs.b && ys.b && zs.b; vs = vs.b, ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A5(f, vs.a, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_sortBy = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		return _Utils_cmp(f(a), f(b));
+	}));
+});
+
+var _List_sortWith = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		var ord = A2(f, a, b);
+		return ord === $elm$core$Basics$EQ ? 0 : ord === $elm$core$Basics$LT ? -1 : 1;
+	}));
+});
 
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.bG,
-		impl.b8,
-		impl.b3,
+		impl.bH,
+		impl.b9,
+		impl.b4,
 		function() { return function() {} }
 	);
 });
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.bG,
-		impl.b8,
-		impl.b3,
+		impl.bH,
+		impl.b9,
+		impl.b4,
 		function(sendToApp, initialModel) {
-			var view = impl.b9;
+			var view = impl.ca;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.bG,
-		impl.b8,
-		impl.b3,
+		impl.bH,
+		impl.b9,
+		impl.b4,
 		function(sendToApp, initialModel) {
 			var divertHrefToApp = impl.at && impl.at(sendToApp)
-			var view = impl.b9;
+			var view = impl.ca;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3997,7 +3997,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.b6) && (_VirtualDom_doc.title = title = doc.b6);
+				(title !== doc.b7) && (_VirtualDom_doc.title = title = doc.b7);
 			});
 		}
 	);
@@ -4053,8 +4053,8 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.bW;
-	var onUrlRequest = impl.bX;
+	var onUrlChange = impl.bX;
+	var onUrlRequest = impl.bY;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		bG: function(flags)
+		bH: function(flags)
 		{
-			return A3(impl.bG, flags, _Browser_getUrl(), key);
+			return A3(impl.bH, flags, _Browser_getUrl(), key);
 		},
+		ca: impl.ca,
 		b9: impl.b9,
-		b8: impl.b8,
-		b3: impl.b3
+		b4: impl.b4
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { bD: 'hidden', bs: 'visibilitychange' }
+		? { bE: 'hidden', bs: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { bD: 'mozHidden', bs: 'mozvisibilitychange' }
+		? { bE: 'mozHidden', bs: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { bD: 'msHidden', bs: 'msvisibilitychange' }
+		? { bE: 'msHidden', bs: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { bD: 'webkitHidden', bs: 'webkitvisibilitychange' }
-		: { bD: 'hidden', bs: 'visibilitychange' };
+		? { bE: 'webkitHidden', bs: 'webkitvisibilitychange' }
+		: { bE: 'hidden', bs: 'visibilitychange' };
 }
 
 
@@ -4453,8 +4453,6 @@ var _Bitwise_shiftRightZfBy = F2(function(offset, a)
 {
 	return a >>> offset;
 });
-var $elm$core$Basics$EQ = 1;
-var $elm$core$Basics$LT = 0;
 var $elm$core$List$cons = _List_cons;
 var $elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var $elm$core$Array$foldr = F3(
@@ -4532,8 +4530,15 @@ var $elm$core$Set$toList = function (_v0) {
 	var dict = _v0;
 	return $elm$core$Dict$keys(dict);
 };
+var $elm$core$Basics$EQ = 1;
 var $elm$core$Basics$GT = 2;
+var $elm$core$Basics$LT = 0;
 var $author$project$Update$AdvanceGameClock = {$: 1};
+var $author$project$Update$CatchFish = 0;
+var $author$project$Update$GameEvent = function (a) {
+	return {$: 3, a: a};
+};
+var $author$project$Update$SellFish = 1;
 var $elm$core$Basics$apL = F2(
 	function (f, x) {
 		return f(x);
@@ -4944,6 +4949,8 @@ var $elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 			return 3;
 	}
 };
+var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$browser$Browser$External = function (a) {
 	return {$: 1, a: a};
 };
@@ -5652,11 +5659,29 @@ var $elm$time$Time$every = F2(
 	});
 var $elm$core$String$fromFloat = _String_fromNumber;
 var $author$project$State$Delta$gradient = function (state) {
-	return {bM: 0};
+	return {bD: 0, bN: 0};
 };
-var $author$project$State$initial = {bM: 0};
+var $author$project$State$initial = {bD: 0, bN: 0};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 0, a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Update$NoOp = {$: 0};
@@ -5776,7 +5801,7 @@ var $elm$random$Random$generate = F2(
 var $elm$core$Platform$Cmd$map = _Platform_map;
 var $author$project$State$Delta$step = F2(
 	function (delta, state) {
-		return {bM: state.bM + delta.bM};
+		return {bD: state.bD + delta.bD, bN: state.bN + delta.bN};
 	});
 var $pzp1997$assoc_list$AssocList$toList = function (_v0) {
 	var alist = _v0;
@@ -5807,7 +5832,7 @@ var $author$project$Update$update = F2(
 						patch,
 						A2($author$project$State$Delta$step, patch, model)),
 					$elm$core$Platform$Cmd$none);
-			default:
+			case 2:
 				var entries = msg.a;
 				var generateEntry = function (_v2) {
 					var key = _v2.a;
@@ -5830,18 +5855,37 @@ var $author$project$Update$update = F2(
 				return _Utils_Tuple2(
 					_Utils_Tuple2(delta, model),
 					results);
+			default:
+				var event = msg.a;
+				if (!event) {
+					return _Utils_Tuple2(
+						_Utils_Tuple2(
+							delta,
+							_Utils_update(
+								model,
+								{bD: model.bD + 1})),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					return _Utils_Tuple2(
+						_Utils_Tuple2(
+							delta,
+							_Utils_update(
+								model,
+								{bD: 0, bN: model.bN + (model.bD * 5)})),
+						$elm$core$Platform$Cmd$none);
+				}
 		}
 	});
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{
-		bG: function (_v0) {
+		bH: function (_v0) {
 			return _Utils_Tuple2(
 				_Utils_Tuple2(
 					$author$project$State$Delta$gradient($author$project$State$initial),
 					$author$project$State$initial),
 				$elm$core$Platform$Cmd$none);
 		},
-		b3: function (_v1) {
+		b4: function (_v1) {
 			return A2(
 				$elm$time$Time$every,
 				1000,
@@ -5849,11 +5893,53 @@ var $author$project$Main$main = $elm$browser$Browser$element(
 					return $author$project$Update$AdvanceGameClock;
 				});
 		},
-		b8: $author$project$Update$update,
-		b9: function (_v3) {
+		b9: $author$project$Update$update,
+		ca: function (_v3) {
 			var state = _v3.b;
-			var money = $elm$core$String$fromFloat(state.bM);
-			return $elm$html$Html$text('You have $' + (money + '.'));
+			var money = $elm$core$String$fromFloat(state.bN);
+			var fish = $elm$core$String$fromFloat(state.bD);
+			return A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick(
+								$author$project$Update$GameEvent(0))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Catch fish')
+							])),
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick(
+								$author$project$Update$GameEvent(1))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Sell fish')
+							])),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('You have ' + (fish + 'kg of fish.'))
+							])),
+						A2(
+						$elm$html$Html$p,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('You have $' + (money + '.'))
+							]))
+					]));
 		}
 	});
 _Platform_export({'Main':{'init':$author$project$Main$main(
