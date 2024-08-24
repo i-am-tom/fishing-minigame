@@ -1,32 +1,32 @@
 module Main exposing (main)
 
 import Browser exposing (element)
-import Html exposing (..)
+import Html exposing (text)
 import State exposing (State)
+import State.Delta exposing (Delta, gradient)
 import Time
-import Update exposing (Msg(..))
+import Update exposing (Msg(..), update)
 
 
-main : Program () State Msg
+main : Program () ( Delta, State ) Msg
 main =
     element
         { init =
             \_ ->
-                ( State.initial
+                ( ( gradient State.initial
+                  , State.initial
+                  )
                 , Cmd.none
                 )
         , view =
-            \state ->
+            \( _, state ) ->
                 let
                     money =
                         String.fromFloat state.money
                 in
                 text ("You have $" ++ money ++ ".")
         , update =
-            \_ model ->
-                ( model
-                , Cmd.none
-                )
+            update
         , subscriptions =
             \_ ->
                 Time.every 1000 <|
