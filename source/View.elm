@@ -1,10 +1,11 @@
 module View exposing (view)
 
-import State exposing (State)
 import Html exposing (..)
 import Html.Events exposing (onClick)
-import Update exposing (Event (..))
+import State exposing (State)
 import State.Delta exposing (Delta)
+import Update exposing (Event(..))
+
 
 view : Delta -> State -> Html Event
 view delta state =

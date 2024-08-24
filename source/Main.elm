@@ -27,8 +27,8 @@ main =
                 )
         , view =
             \( delta, state ) ->
-              Html.map GameEvent <|
-                view delta state
+                Html.map GameEvent <|
+                    view delta state
         , update =
             \msg ( delta, state ) ->
                 case msg of
