@@ -1,5 +1,5 @@
 build-elm: create-build-directory
-  elm make src/Main.elm --optimize --output=build/main.js
+  elm make source/Main.elm --optimize --output=build/main.js
 
 build-website: build-elm copy-static-assets
 alias build := build-website
@@ -16,11 +16,14 @@ install-dependencies:
   npm install
 
 run-development-server: create-build-directory copy-static-assets install-dependencies
-  npx elm-live src/Main.elm \
+  npx elm-live source/Main.elm \
     --dir build \
     --start-page=build/index.html \
     -- --output=build/main.js --debug
 alias dev := run-development-server
+
+test: build-website
+  npx elm-test
 
 # --- #
 
