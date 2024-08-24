@@ -1,4 +1,4 @@
-module State.Delta exposing (Delta)
+module State.Delta exposing (Delta, gradient, step)
 
 import State exposing (State)
 
