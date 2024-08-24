@@ -7,6 +7,7 @@ import State exposing (State)
 import State.Delta exposing (Delta, gradient, step)
 import Time
 import Update exposing (Event(..), update)
+import View exposing (view)
 
 
 type Msg
@@ -25,24 +26,9 @@ main =
                 , Cmd.none
                 )
         , view =
-            \( _, state ) ->
-                let
-                    fish =
-                        String.fromFloat state.fish
-
-                    money =
-                        String.fromFloat state.money
-                in
-                div []
-                    [ button [ onClick (GameEvent CatchFish) ]
-                        [ text "Catch fish"
-                        ]
-                    , button [ onClick (GameEvent SellFish) ]
-                        [ text "Sell fish"
-                        ]
-                    , p [] [ text ("You have " ++ fish ++ "kg of fish.") ]
-                    , p [] [ text ("You have $" ++ money ++ ".") ]
-                    ]
+            \( delta, state ) ->
+              Html.map GameEvent <|
+                view delta state
         , update =
             \msg ( delta, state ) ->
                 case msg of
