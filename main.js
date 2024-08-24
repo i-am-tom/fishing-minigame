@@ -80,6 +80,87 @@ function A9(fun, a, b, c, d, e, f, g, h, i) {
 
 
 
+var _List_Nil = { $: 0 };
+var _List_Nil_UNUSED = { $: '[]' };
+
+function _List_Cons(hd, tl) { return { $: 1, a: hd, b: tl }; }
+function _List_Cons_UNUSED(hd, tl) { return { $: '::', a: hd, b: tl }; }
+
+
+var _List_cons = F2(_List_Cons);
+
+function _List_fromArray(arr)
+{
+	var out = _List_Nil;
+	for (var i = arr.length; i--; )
+	{
+		out = _List_Cons(arr[i], out);
+	}
+	return out;
+}
+
+function _List_toArray(xs)
+{
+	for (var out = []; xs.b; xs = xs.b) // WHILE_CONS
+	{
+		out.push(xs.a);
+	}
+	return out;
+}
+
+var _List_map2 = F3(function(f, xs, ys)
+{
+	for (var arr = []; xs.b && ys.b; xs = xs.b, ys = ys.b) // WHILE_CONSES
+	{
+		arr.push(A2(f, xs.a, ys.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map3 = F4(function(f, xs, ys, zs)
+{
+	for (var arr = []; xs.b && ys.b && zs.b; xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A3(f, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map4 = F5(function(f, ws, xs, ys, zs)
+{
+	for (var arr = []; ws.b && xs.b && ys.b && zs.b; ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A4(f, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map5 = F6(function(f, vs, ws, xs, ys, zs)
+{
+	for (var arr = []; vs.b && ws.b && xs.b && ys.b && zs.b; vs = vs.b, ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A5(f, vs.a, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_sortBy = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		return _Utils_cmp(f(a), f(b));
+	}));
+});
+
+var _List_sortWith = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		var ord = A2(f, a, b);
+		return ord === $elm$core$Basics$EQ ? 0 : ord === $elm$core$Basics$LT ? -1 : 1;
+	}));
+});
+
+
+
 var _JsArray_empty = [];
 
 function _JsArray_singleton(value)
@@ -519,11 +600,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.au._ === region.aH._)
+	if (region.aw._ === region.aJ._)
 	{
-		return 'on line ' + region.au._;
+		return 'on line ' + region.aw._;
 	}
-	return 'on lines ' + region.au._ + ' through ' + region.aH._;
+	return 'on lines ' + region.aw._ + ' through ' + region.aJ._;
 }
 
 
@@ -709,87 +790,6 @@ function _Utils_ap(xs, ys)
 	}
 	return root;
 }
-
-
-
-var _List_Nil = { $: 0 };
-var _List_Nil_UNUSED = { $: '[]' };
-
-function _List_Cons(hd, tl) { return { $: 1, a: hd, b: tl }; }
-function _List_Cons_UNUSED(hd, tl) { return { $: '::', a: hd, b: tl }; }
-
-
-var _List_cons = F2(_List_Cons);
-
-function _List_fromArray(arr)
-{
-	var out = _List_Nil;
-	for (var i = arr.length; i--; )
-	{
-		out = _List_Cons(arr[i], out);
-	}
-	return out;
-}
-
-function _List_toArray(xs)
-{
-	for (var out = []; xs.b; xs = xs.b) // WHILE_CONS
-	{
-		out.push(xs.a);
-	}
-	return out;
-}
-
-var _List_map2 = F3(function(f, xs, ys)
-{
-	for (var arr = []; xs.b && ys.b; xs = xs.b, ys = ys.b) // WHILE_CONSES
-	{
-		arr.push(A2(f, xs.a, ys.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map3 = F4(function(f, xs, ys, zs)
-{
-	for (var arr = []; xs.b && ys.b && zs.b; xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A3(f, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map4 = F5(function(f, ws, xs, ys, zs)
-{
-	for (var arr = []; ws.b && xs.b && ys.b && zs.b; ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A4(f, ws.a, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map5 = F6(function(f, vs, ws, xs, ys, zs)
-{
-	for (var arr = []; vs.b && ws.b && xs.b && ys.b && zs.b; vs = vs.b, ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A5(f, vs.a, ws.a, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_sortBy = F2(function(f, xs)
-{
-	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
-		return _Utils_cmp(f(a), f(b));
-	}));
-});
-
-var _List_sortWith = F2(function(f, xs)
-{
-	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
-		var ord = A2(f, a, b);
-		return ord === $elm$core$Basics$EQ ? 0 : ord === $elm$core$Basics$LT ? -1 : 1;
-	}));
-});
 
 
 
@@ -1857,7 +1857,7 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.bH,
+		impl.bI,
 		impl.b9,
 		impl.b4,
 		function() { return function() {} }
@@ -2720,8 +2720,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		F: func(record.F),
-		av: record.av,
-		as: record.as
+		ax: record.ax,
+		au: record.au
 	}
 });
 
@@ -2990,10 +2990,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.F;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.av;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.ax;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.as) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.au) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3943,7 +3943,7 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.bH,
+		impl.bI,
 		impl.b9,
 		impl.b4,
 		function(sendToApp, initialModel) {
@@ -3979,11 +3979,11 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.bH,
+		impl.bI,
 		impl.b9,
 		impl.b4,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.at && impl.at(sendToApp)
+			var divertHrefToApp = impl.av && impl.av(sendToApp)
 			var view = impl.ca;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
@@ -3992,7 +3992,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.bp);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.br);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
@@ -4058,7 +4058,7 @@ function _Browser_application(impl)
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		at: function(sendToApp)
+		av: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.a2 === next.a2
-							&& curr.aO === next.aO
-							&& curr.a$.a === next.a$.a
+							&& curr.a4 === next.a4
+							&& curr.aQ === next.aQ
+							&& curr.a1.a === next.a1.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4084,9 +4084,9 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		bH: function(flags)
+		bI: function(flags)
 		{
-			return A3(impl.bH, flags, _Browser_getUrl(), key);
+			return A3(impl.bI, flags, _Browser_getUrl(), key);
 		},
 		ca: impl.ca,
 		b9: impl.b9,
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { bE: 'hidden', bs: 'visibilitychange' }
+		? { bF: 'hidden', bu: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { bE: 'mozHidden', bs: 'mozvisibilitychange' }
+		? { bF: 'mozHidden', bu: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { bE: 'msHidden', bs: 'msvisibilitychange' }
+		? { bF: 'msHidden', bu: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { bE: 'webkitHidden', bs: 'webkitvisibilitychange' }
-		: { bE: 'hidden', bs: 'visibilitychange' };
+		? { bF: 'webkitHidden', bu: 'webkitvisibilitychange' }
+		: { bF: 'hidden', bu: 'visibilitychange' };
 }
 
 
@@ -4247,12 +4247,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		a7: _Browser_getScene(),
-		bf: {
-			bi: _Browser_window.pageXOffset,
-			bj: _Browser_window.pageYOffset,
-			bh: _Browser_doc.documentElement.clientWidth,
-			aN: _Browser_doc.documentElement.clientHeight
+		a9: _Browser_getScene(),
+		bh: {
+			bk: _Browser_window.pageXOffset,
+			bl: _Browser_window.pageYOffset,
+			bj: _Browser_doc.documentElement.clientWidth,
+			aP: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4262,8 +4262,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		bh: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		aN: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		bj: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		aP: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4286,15 +4286,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			a7: {
-				bh: node.scrollWidth,
-				aN: node.scrollHeight
+			a9: {
+				bj: node.scrollWidth,
+				aP: node.scrollHeight
 			},
-			bf: {
-				bi: node.scrollLeft,
-				bj: node.scrollTop,
-				bh: node.clientWidth,
-				aN: node.clientHeight
+			bh: {
+				bk: node.scrollLeft,
+				bl: node.scrollTop,
+				bj: node.clientWidth,
+				aP: node.clientHeight
 			}
 		};
 	});
@@ -4324,18 +4324,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			a7: _Browser_getScene(),
-			bf: {
-				bi: x,
-				bj: y,
-				bh: _Browser_doc.documentElement.clientWidth,
-				aN: _Browser_doc.documentElement.clientHeight
+			a9: _Browser_getScene(),
+			bh: {
+				bk: x,
+				bl: y,
+				bj: _Browser_doc.documentElement.clientWidth,
+				aP: _Browser_doc.documentElement.clientHeight
 			},
-			bx: {
-				bi: x + rect.left,
-				bj: y + rect.top,
-				bh: rect.width,
-				aN: rect.height
+			bz: {
+				bk: x + rect.left,
+				bl: y + rect.top,
+				bj: rect.width,
+				aP: rect.height
 			}
 		};
 	});
@@ -4453,6 +4453,8 @@ var _Bitwise_shiftRightZfBy = F2(function(offset, a)
 {
 	return a >>> offset;
 });
+var $elm$core$Basics$EQ = 1;
+var $elm$core$Basics$LT = 0;
 var $elm$core$List$cons = _List_cons;
 var $elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var $elm$core$Array$foldr = F3(
@@ -4530,20 +4532,19 @@ var $elm$core$Set$toList = function (_v0) {
 	var dict = _v0;
 	return $elm$core$Dict$keys(dict);
 };
-var $elm$core$Basics$EQ = 1;
 var $elm$core$Basics$GT = 2;
-var $elm$core$Basics$LT = 0;
 var $author$project$Main$AdvanceGameClock = {$: 0};
-var $author$project$Update$CatchFish = {$: 1};
 var $author$project$Main$GameEvent = function (a) {
 	return {$: 1, a: a};
 };
-var $author$project$Update$SellFish = {$: 2};
 var $elm$core$Basics$always = F2(
 	function (a, _v0) {
 		return a;
 	});
-var $elm$core$Basics$append = _Utils_append;
+var $elm$core$Basics$apL = F2(
+	function (f, x) {
+		return f(x);
+	});
 var $elm$core$Result$Err = function (a) {
 	return {$: 1, a: a};
 };
@@ -4573,6 +4574,7 @@ var $elm$core$Maybe$Just = function (a) {
 var $elm$core$Maybe$Nothing = {$: 1};
 var $elm$core$String$all = _String_all;
 var $elm$core$Basics$and = _Basics_and;
+var $elm$core$Basics$append = _Utils_append;
 var $elm$json$Json$Encode$encode = _Json_encode;
 var $elm$core$String$fromInt = _String_fromNumber;
 var $elm$core$String$join = F2(
@@ -4804,10 +4806,6 @@ var $elm$core$Elm$JsArray$initialize = _JsArray_initialize;
 var $elm$core$Array$Leaf = function (a) {
 	return {$: 1, a: a};
 };
-var $elm$core$Basics$apL = F2(
-	function (f, x) {
-		return f(x);
-	});
 var $elm$core$Basics$apR = F2(
 	function (x, f) {
 		return f(x);
@@ -4953,8 +4951,6 @@ var $elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 			return 3;
 	}
 };
-var $elm$html$Html$button = _VirtualDom_node('button');
-var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$browser$Browser$External = function (a) {
 	return {$: 1, a: a};
 };
@@ -4969,7 +4965,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {aJ: fragment, aO: host, aZ: path, a$: port_, a2: protocol, a3: query};
+		return {aL: fragment, aQ: host, a$: path, a1: port_, a4: protocol, a5: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5254,7 +5250,7 @@ var $elm$time$Time$Every = F2(
 	});
 var $elm$time$Time$State = F2(
 	function (taggers, processes) {
-		return {a1: processes, bd: taggers};
+		return {a3: processes, bf: taggers};
 	});
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
@@ -5546,7 +5542,7 @@ var $elm$time$Time$spawnHelp = F3(
 	});
 var $elm$time$Time$onEffects = F3(
 	function (router, subs, _v0) {
-		var processes = _v0.a1;
+		var processes = _v0.a3;
 		var rightStep = F3(
 			function (_v6, id, _v7) {
 				var spawns = _v7.a;
@@ -5615,7 +5611,7 @@ var $elm$time$Time$millisToPosix = $elm$core$Basics$identity;
 var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
 var $elm$time$Time$onSelfMsg = F3(
 	function (router, interval, state) {
-		var _v0 = A2($elm$core$Dict$get, interval, state.bd);
+		var _v0 = A2($elm$core$Dict$get, interval, state.bf);
 		if (_v0.$ === 1) {
 			return $elm$core$Task$succeed(state);
 		} else {
@@ -5661,38 +5657,19 @@ var $elm$time$Time$every = F2(
 		return $elm$time$Time$subscription(
 			A2($elm$time$Time$Every, interval, tagger));
 	});
-var $elm$core$String$fromFloat = _String_fromNumber;
 var $author$project$State$Delta$gradient = function (state) {
-	return {bD: 0, bN: 0};
+	return {an: 0, ar: 0};
 };
-var $author$project$State$initial = {bD: 0, bN: 0};
+var $author$project$State$initial = {an: 0, ar: 0};
+var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
+var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
 var $elm$core$Platform$Cmd$map = _Platform_map;
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $elm$virtual_dom$VirtualDom$Normal = function (a) {
-	return {$: 0, a: a};
-};
-var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
-var $elm$html$Html$Events$on = F2(
-	function (event, decoder) {
-		return A2(
-			$elm$virtual_dom$VirtualDom$on,
-			event,
-			$elm$virtual_dom$VirtualDom$Normal(decoder));
-	});
-var $elm$html$Html$Events$onClick = function (msg) {
-	return A2(
-		$elm$html$Html$Events$on,
-		'click',
-		$elm$json$Json$Decode$succeed(msg));
-};
-var $elm$html$Html$p = _VirtualDom_node('p');
 var $author$project$State$Delta$step = F2(
 	function (delta, state) {
-		return {bD: state.bD + delta.bD, bN: state.bN + delta.bN};
+		return {an: state.an + delta.an, ar: state.ar + delta.ar};
 	});
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Update$NoOp = {$: 0};
 var $elm$random$Random$Generator = $elm$core$Basics$identity;
 var $elm$core$Basics$negate = function (n) {
@@ -5850,19 +5827,89 @@ var $author$project$Update$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{bD: model.bD + 1}),
+						{an: model.an + 1}),
 					$elm$core$Platform$Cmd$none);
 			default:
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{bD: 0, bN: model.bN + (model.bD * 5)}),
+						{an: 0, ar: model.ar + (model.an * 5)}),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
+var $author$project$Update$CatchFish = {$: 1};
+var $author$project$Update$SellFish = {$: 2};
+var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$core$String$fromFloat = _String_fromNumber;
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 0, a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$View$view = F2(
+	function (delta, state) {
+		var money = $elm$core$String$fromFloat(state.ar);
+		var fish = $elm$core$String$fromFloat(state.an);
+		return A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Events$onClick($author$project$Update$CatchFish)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Catch fish')
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Events$onClick($author$project$Update$SellFish)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Sell fish')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('You have ' + (fish + 'kg of fish.'))
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('You have $' + (money + '.'))
+						]))
+				]));
+	});
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{
-		bH: function (_v0) {
+		bI: function (_v0) {
 			return _Utils_Tuple2(
 				_Utils_Tuple2(
 					$author$project$State$Delta$gradient($author$project$State$initial),
@@ -5897,51 +5944,12 @@ var $author$project$Main$main = $elm$browser$Browser$element(
 				}
 			}),
 		ca: function (_v5) {
+			var delta = _v5.a;
 			var state = _v5.b;
-			var money = $elm$core$String$fromFloat(state.bN);
-			var fish = $elm$core$String$fromFloat(state.bD);
 			return A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$button,
-						_List_fromArray(
-							[
-								$elm$html$Html$Events$onClick(
-								$author$project$Main$GameEvent($author$project$Update$CatchFish))
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Catch fish')
-							])),
-						A2(
-						$elm$html$Html$button,
-						_List_fromArray(
-							[
-								$elm$html$Html$Events$onClick(
-								$author$project$Main$GameEvent($author$project$Update$SellFish))
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Sell fish')
-							])),
-						A2(
-						$elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('You have ' + (fish + 'kg of fish.'))
-							])),
-						A2(
-						$elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('You have $' + (money + '.'))
-							]))
-					]));
+				$elm$html$Html$map,
+				$author$project$Main$GameEvent,
+				A2($author$project$View$view, delta, state));
 		}
 	});
 _Platform_export({'Main':{'init':$author$project$Main$main(
