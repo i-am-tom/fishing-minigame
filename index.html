@@ -1,11 +1,16 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Initial</title>
     <script src="main.js"></script>
   </head>
   <body>
-    <script>Elm.Main.init()</script>
+    <div id="application"></div>
+    <script>
+      Elm.Main.init({
+        node: document.getElementById('application')
+      })
+    </script>
   </body>
 </html>
