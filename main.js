@@ -4533,15 +4533,15 @@ var $elm$core$Set$toList = function (_v0) {
 var $elm$core$Basics$EQ = 1;
 var $elm$core$Basics$GT = 2;
 var $elm$core$Basics$LT = 0;
-var $author$project$Update$AdvanceGameClock = {$: 1};
-var $author$project$Update$CatchFish = 0;
-var $author$project$Update$GameEvent = function (a) {
-	return {$: 3, a: a};
+var $author$project$Main$AdvanceGameClock = {$: 0};
+var $author$project$Update$CatchFish = {$: 1};
+var $author$project$Main$GameEvent = function (a) {
+	return {$: 1, a: a};
 };
-var $author$project$Update$SellFish = 1;
-var $elm$core$Basics$apL = F2(
-	function (f, x) {
-		return f(x);
+var $author$project$Update$SellFish = {$: 2};
+var $elm$core$Basics$always = F2(
+	function (a, _v0) {
+		return a;
 	});
 var $elm$core$Basics$append = _Utils_append;
 var $elm$core$Result$Err = function (a) {
@@ -4804,6 +4804,10 @@ var $elm$core$Elm$JsArray$initialize = _JsArray_initialize;
 var $elm$core$Array$Leaf = function (a) {
 	return {$: 1, a: a};
 };
+var $elm$core$Basics$apL = F2(
+	function (f, x) {
+		return f(x);
+	});
 var $elm$core$Basics$apR = F2(
 	function (x, f) {
 		return f(x);
@@ -5662,6 +5666,7 @@ var $author$project$State$Delta$gradient = function (state) {
 	return {bD: 0, bN: 0};
 };
 var $author$project$State$initial = {bD: 0, bN: 0};
+var $elm$core$Platform$Cmd$map = _Platform_map;
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
@@ -5682,6 +5687,10 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		$elm$json$Json$Decode$succeed(msg));
 };
 var $elm$html$Html$p = _VirtualDom_node('p');
+var $author$project$State$Delta$step = F2(
+	function (delta, state) {
+		return {bD: state.bD + delta.bD, bN: state.bN + delta.bN};
+	});
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Update$NoOp = {$: 0};
@@ -5798,11 +5807,6 @@ var $elm$random$Random$generate = F2(
 		return $elm$random$Random$command(
 			A2($elm$random$Random$map, tagger, generator));
 	});
-var $elm$core$Platform$Cmd$map = _Platform_map;
-var $author$project$State$Delta$step = F2(
-	function (delta, state) {
-		return {bD: state.bD + delta.bD, bN: state.bN + delta.bN};
-	});
 var $pzp1997$assoc_list$AssocList$toList = function (_v0) {
 	var alist = _v0;
 	return alist;
@@ -5817,26 +5821,15 @@ var $elm$core$Maybe$withDefault = F2(
 		}
 	});
 var $author$project$Update$update = F2(
-	function (msg, _v0) {
-		var delta = _v0.a;
-		var model = _v0.b;
+	function (msg, model) {
 		switch (msg.$) {
 			case 0:
-				return _Utils_Tuple2(
-					_Utils_Tuple2(delta, model),
-					$elm$core$Platform$Cmd$none);
-			case 1:
-				var patch = $author$project$State$Delta$gradient(model);
-				return _Utils_Tuple2(
-					_Utils_Tuple2(
-						patch,
-						A2($author$project$State$Delta$step, patch, model)),
-					$elm$core$Platform$Cmd$none);
-			case 2:
+				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+			case 3:
 				var entries = msg.a;
-				var generateEntry = function (_v2) {
-					var key = _v2.a;
-					var threshold = _v2.b;
+				var generateEntry = function (_v1) {
+					var key = _v1.a;
+					var threshold = _v1.b;
 					return A2(
 						$elm$random$Random$generate,
 						function (roll) {
@@ -5852,28 +5845,19 @@ var $author$project$Update$update = F2(
 							$elm$core$List$map,
 							generateEntry,
 							$pzp1997$assoc_list$AssocList$toList(entries))));
+				return _Utils_Tuple2(model, results);
+			case 1:
 				return _Utils_Tuple2(
-					_Utils_Tuple2(delta, model),
-					results);
+					_Utils_update(
+						model,
+						{bD: model.bD + 1}),
+					$elm$core$Platform$Cmd$none);
 			default:
-				var event = msg.a;
-				if (!event) {
-					return _Utils_Tuple2(
-						_Utils_Tuple2(
-							delta,
-							_Utils_update(
-								model,
-								{bD: model.bD + 1})),
-						$elm$core$Platform$Cmd$none);
-				} else {
-					return _Utils_Tuple2(
-						_Utils_Tuple2(
-							delta,
-							_Utils_update(
-								model,
-								{bD: 0, bN: model.bN + (model.bD * 5)})),
-						$elm$core$Platform$Cmd$none);
-				}
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{bD: 0, bN: model.bN + (model.bD * 5)}),
+					$elm$core$Platform$Cmd$none);
 		}
 	});
 var $author$project$Main$main = $elm$browser$Browser$element(
@@ -5889,13 +5873,31 @@ var $author$project$Main$main = $elm$browser$Browser$element(
 			return A2(
 				$elm$time$Time$every,
 				1000,
-				function (_v2) {
-					return $author$project$Update$AdvanceGameClock;
-				});
+				$elm$core$Basics$always($author$project$Main$AdvanceGameClock));
 		},
-		b9: $author$project$Update$update,
-		ca: function (_v3) {
-			var state = _v3.b;
+		b9: F2(
+			function (msg, _v2) {
+				var delta = _v2.a;
+				var state = _v2.b;
+				if (!msg.$) {
+					var patch = $author$project$State$Delta$gradient(state);
+					return _Utils_Tuple2(
+						_Utils_Tuple2(
+							patch,
+							A2($author$project$State$Delta$step, patch, state)),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					var event = msg.a;
+					var _v4 = A2($author$project$Update$update, event, state);
+					var updated = _v4.a;
+					var cmd = _v4.b;
+					return _Utils_Tuple2(
+						_Utils_Tuple2(delta, updated),
+						A2($elm$core$Platform$Cmd$map, $author$project$Main$GameEvent, cmd));
+				}
+			}),
+		ca: function (_v5) {
+			var state = _v5.b;
 			var money = $elm$core$String$fromFloat(state.bN);
 			var fish = $elm$core$String$fromFloat(state.bD);
 			return A2(
@@ -5908,7 +5910,7 @@ var $author$project$Main$main = $elm$browser$Browser$element(
 						_List_fromArray(
 							[
 								$elm$html$Html$Events$onClick(
-								$author$project$Update$GameEvent(0))
+								$author$project$Main$GameEvent($author$project$Update$CatchFish))
 							]),
 						_List_fromArray(
 							[
@@ -5919,7 +5921,7 @@ var $author$project$Main$main = $elm$browser$Browser$element(
 						_List_fromArray(
 							[
 								$elm$html$Html$Events$onClick(
-								$author$project$Update$GameEvent(1))
+								$author$project$Main$GameEvent($author$project$Update$SellFish))
 							]),
 						_List_fromArray(
 							[
