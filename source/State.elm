@@ -5,13 +5,15 @@ import Json.Encode as Encode
 
 
 type alias State =
-    { money : Float
+    { fish : Float
+    , money : Float
     }
 
 
 initial : State
 initial =
-    { money = 0
+    { fish = 0
+    , money = 0
     }
 
 
@@ -24,5 +26,6 @@ serialize state =
 
 deserialize : Decoder State
 deserialize =
-    Decode.map State
+    Decode.map2 State
+        (Decode.field "fish" Decode.float)
         (Decode.field "money" Decode.float)

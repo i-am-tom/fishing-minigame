@@ -1,4 +1,4 @@
-module Update exposing (Msg(..), update)
+module Update exposing (Event(..), Msg(..), update)
 
 import AssocList as Dict exposing (Dict)
 import Random exposing (Generator)
@@ -10,6 +10,12 @@ type Msg
     = NoOp
     | AdvanceGameClock
     | Probabilities (Dict Msg Float)
+    | GameEvent Event
+
+
+type Event
+    = CatchFish
+    | SellFish
 
 
 update : Msg -> ( Delta, State ) -> ( ( Delta, State ), Cmd Msg )
@@ -48,3 +54,11 @@ update msg ( delta, model ) =
                         |> Cmd.map (Maybe.withDefault NoOp)
             in
             ( ( delta, model ), results )
+
+        GameEvent event ->
+            case event of
+                CatchFish ->
+                    ( ( delta, { model | fish = model.fish + 1 } ), Cmd.none )
+
+                SellFish ->
+                    ( ( delta, { model | fish = 0, money = model.money + model.fish * 5 } ), Cmd.none )
