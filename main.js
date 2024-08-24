@@ -4416,6 +4416,43 @@ function _Time_getZoneName()
 		callback(_Scheduler_succeed(name));
 	});
 }
+
+
+
+var _Bitwise_and = F2(function(a, b)
+{
+	return a & b;
+});
+
+var _Bitwise_or = F2(function(a, b)
+{
+	return a | b;
+});
+
+var _Bitwise_xor = F2(function(a, b)
+{
+	return a ^ b;
+});
+
+function _Bitwise_complement(a)
+{
+	return ~a;
+};
+
+var _Bitwise_shiftLeftBy = F2(function(offset, a)
+{
+	return a << offset;
+});
+
+var _Bitwise_shiftRightBy = F2(function(offset, a)
+{
+	return a >> offset;
+});
+
+var _Bitwise_shiftRightZfBy = F2(function(offset, a)
+{
+	return a >>> offset;
+});
 var $elm$core$Basics$EQ = 1;
 var $elm$core$Basics$LT = 0;
 var $elm$core$List$cons = _List_cons;
@@ -4496,7 +4533,7 @@ var $elm$core$Set$toList = function (_v0) {
 	return $elm$core$Dict$keys(dict);
 };
 var $elm$core$Basics$GT = 2;
-var $author$project$Update$AdvanceGameClock = 0;
+var $author$project$Update$AdvanceGameClock = {$: 1};
 var $elm$core$Basics$apL = F2(
 	function (f, x) {
 		return f(x);
@@ -5614,29 +5651,207 @@ var $elm$time$Time$every = F2(
 			A2($elm$time$Time$Every, interval, tagger));
 	});
 var $elm$core$String$fromFloat = _String_fromNumber;
+var $author$project$State$Delta$gradient = function (state) {
+	return {bM: 0};
+};
 var $author$project$State$initial = {bM: 0};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Update$NoOp = {$: 0};
+var $elm$random$Random$Generator = $elm$core$Basics$identity;
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $elm$core$Basics$abs = function (n) {
+	return (n < 0) ? (-n) : n;
+};
+var $elm$core$Bitwise$and = _Bitwise_and;
+var $elm$random$Random$Seed = F2(
+	function (a, b) {
+		return {$: 0, a: a, b: b};
+	});
+var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
+var $elm$random$Random$next = function (_v0) {
+	var state0 = _v0.a;
+	var incr = _v0.b;
+	return A2($elm$random$Random$Seed, ((state0 * 1664525) + incr) >>> 0, incr);
+};
+var $elm$core$Bitwise$xor = _Bitwise_xor;
+var $elm$random$Random$peel = function (_v0) {
+	var state = _v0.a;
+	var word = (state ^ (state >>> ((state >>> 28) + 4))) * 277803737;
+	return ((word >>> 22) ^ word) >>> 0;
+};
+var $elm$random$Random$float = F2(
+	function (a, b) {
+		return function (seed0) {
+			var seed1 = $elm$random$Random$next(seed0);
+			var range = $elm$core$Basics$abs(b - a);
+			var n1 = $elm$random$Random$peel(seed1);
+			var n0 = $elm$random$Random$peel(seed0);
+			var lo = (134217727 & n1) * 1.0;
+			var hi = (67108863 & n0) * 1.0;
+			var val = ((hi * 134217728.0) + lo) / 9007199254740992.0;
+			var scaled = (val * range) + a;
+			return _Utils_Tuple2(
+				scaled,
+				$elm$random$Random$next(seed1));
+		};
+	});
+var $elm$random$Random$Generate = $elm$core$Basics$identity;
+var $elm$random$Random$initialSeed = function (x) {
+	var _v0 = $elm$random$Random$next(
+		A2($elm$random$Random$Seed, 0, 1013904223));
+	var state1 = _v0.a;
+	var incr = _v0.b;
+	var state2 = (state1 + x) >>> 0;
+	return $elm$random$Random$next(
+		A2($elm$random$Random$Seed, state2, incr));
+};
+var $elm$time$Time$posixToMillis = function (_v0) {
+	var millis = _v0;
+	return millis;
+};
+var $elm$random$Random$init = A2(
+	$elm$core$Task$andThen,
+	function (time) {
+		return $elm$core$Task$succeed(
+			$elm$random$Random$initialSeed(
+				$elm$time$Time$posixToMillis(time)));
+	},
+	$elm$time$Time$now);
+var $elm$random$Random$step = F2(
+	function (_v0, seed) {
+		var generator = _v0;
+		return generator(seed);
+	});
+var $elm$random$Random$onEffects = F3(
+	function (router, commands, seed) {
+		if (!commands.b) {
+			return $elm$core$Task$succeed(seed);
+		} else {
+			var generator = commands.a;
+			var rest = commands.b;
+			var _v1 = A2($elm$random$Random$step, generator, seed);
+			var value = _v1.a;
+			var newSeed = _v1.b;
+			return A2(
+				$elm$core$Task$andThen,
+				function (_v2) {
+					return A3($elm$random$Random$onEffects, router, rest, newSeed);
+				},
+				A2($elm$core$Platform$sendToApp, router, value));
+		}
+	});
+var $elm$random$Random$onSelfMsg = F3(
+	function (_v0, _v1, seed) {
+		return $elm$core$Task$succeed(seed);
+	});
+var $elm$random$Random$map = F2(
+	function (func, _v0) {
+		var genA = _v0;
+		return function (seed0) {
+			var _v1 = genA(seed0);
+			var a = _v1.a;
+			var seed1 = _v1.b;
+			return _Utils_Tuple2(
+				func(a),
+				seed1);
+		};
+	});
+var $elm$random$Random$cmdMap = F2(
+	function (func, _v0) {
+		var generator = _v0;
+		return A2($elm$random$Random$map, func, generator);
+	});
+_Platform_effectManagers['Random'] = _Platform_createManager($elm$random$Random$init, $elm$random$Random$onEffects, $elm$random$Random$onSelfMsg, $elm$random$Random$cmdMap);
+var $elm$random$Random$command = _Platform_leaf('Random');
+var $elm$random$Random$generate = F2(
+	function (tagger, generator) {
+		return $elm$random$Random$command(
+			A2($elm$random$Random$map, tagger, generator));
+	});
+var $elm$core$Platform$Cmd$map = _Platform_map;
+var $author$project$State$Delta$step = F2(
+	function (delta, state) {
+		return {bM: state.bM + delta.bM};
+	});
+var $pzp1997$assoc_list$AssocList$toList = function (_v0) {
+	var alist = _v0;
+	return alist;
+};
+var $elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (!maybe.$) {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var $author$project$Update$update = F2(
+	function (msg, _v0) {
+		var delta = _v0.a;
+		var model = _v0.b;
+		switch (msg.$) {
+			case 0:
+				return _Utils_Tuple2(
+					_Utils_Tuple2(delta, model),
+					$elm$core$Platform$Cmd$none);
+			case 1:
+				var patch = $author$project$State$Delta$gradient(model);
+				return _Utils_Tuple2(
+					_Utils_Tuple2(
+						patch,
+						A2($author$project$State$Delta$step, patch, model)),
+					$elm$core$Platform$Cmd$none);
+			default:
+				var entries = msg.a;
+				var generateEntry = function (_v2) {
+					var key = _v2.a;
+					var threshold = _v2.b;
+					return A2(
+						$elm$random$Random$generate,
+						function (roll) {
+							return (_Utils_cmp(roll, threshold) < 0) ? $elm$core$Maybe$Just(key) : $elm$core$Maybe$Nothing;
+						},
+						A2($elm$random$Random$float, 0, 1));
+				};
+				var results = A2(
+					$elm$core$Platform$Cmd$map,
+					$elm$core$Maybe$withDefault($author$project$Update$NoOp),
+					$elm$core$Platform$Cmd$batch(
+						A2(
+							$elm$core$List$map,
+							generateEntry,
+							$pzp1997$assoc_list$AssocList$toList(entries))));
+				return _Utils_Tuple2(
+					_Utils_Tuple2(delta, model),
+					results);
+		}
+	});
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{
 		bG: function (_v0) {
-			return _Utils_Tuple2($author$project$State$initial, $elm$core$Platform$Cmd$none);
+			return _Utils_Tuple2(
+				_Utils_Tuple2(
+					$author$project$State$Delta$gradient($author$project$State$initial),
+					$author$project$State$initial),
+				$elm$core$Platform$Cmd$none);
 		},
 		b3: function (_v1) {
 			return A2(
 				$elm$time$Time$every,
 				1000,
 				function (_v2) {
-					return 0;
+					return $author$project$Update$AdvanceGameClock;
 				});
 		},
-		b8: F2(
-			function (_v3, model) {
-				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
-			}),
-		b9: function (state) {
+		b8: $author$project$Update$update,
+		b9: function (_v3) {
+			var state = _v3.b;
 			var money = $elm$core$String$fromFloat(state.bM);
 			return $elm$html$Html$text('You have $' + (money + '.'));
 		}
