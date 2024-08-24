@@ -1,4 +1,4 @@
-module Update exposing (Event(..), Msg(..), update)
+module Update exposing (Event(..), update)
 
 import AssocList as Dict exposing (Dict)
 import Random exposing (Generator)
@@ -6,34 +6,22 @@ import State exposing (State)
 import State.Delta exposing (Delta, gradient, step)
 
 
-type Msg
-    = NoOp
-    | AdvanceGameClock
-    | Probabilities (Dict Msg Float)
-    | GameEvent Event
-
-
 type Event
-    = CatchFish
+    = NoOp
+    | CatchFish
     | SellFish
+    | Probabilities (Dict Event Float)
 
 
-update : Msg -> ( Delta, State ) -> ( ( Delta, State ), Cmd Msg )
-update msg ( delta, model ) =
+update : Event -> State -> ( State, Cmd Event )
+update msg model =
     case msg of
         NoOp ->
-            ( ( delta, model ), Cmd.none )
-
-        AdvanceGameClock ->
-            let
-                patch =
-                    gradient model
-            in
-            ( ( patch, step patch model ), Cmd.none )
+            ( model, Cmd.none )
 
         Probabilities entries ->
             let
-                generateEntry : ( Msg, Float ) -> Cmd (Maybe Msg)
+                generateEntry : ( Event, Float ) -> Cmd (Maybe Event)
                 generateEntry ( key, threshold ) =
                     Random.float 0 1
                         |> Random.generate
@@ -45,7 +33,7 @@ update msg ( delta, model ) =
                                     Nothing
                             )
 
-                results : Cmd Msg
+                results : Cmd Event
                 results =
                     entries
                         |> Dict.toList
@@ -53,12 +41,10 @@ update msg ( delta, model ) =
                         |> Cmd.batch
                         |> Cmd.map (Maybe.withDefault NoOp)
             in
-            ( ( delta, model ), results )
+            ( model, results )
 
-        GameEvent event ->
-            case event of
-                CatchFish ->
-                    ( ( delta, { model | fish = model.fish + 1 } ), Cmd.none )
+        CatchFish ->
+            ( { model | fish = model.fish + 1 }, Cmd.none )
 
-                SellFish ->
-                    ( ( delta, { model | fish = 0, money = model.money + model.fish * 5 } ), Cmd.none )
+        SellFish ->
+            ( { model | fish = 0, money = model.money + model.fish * 5 }, Cmd.none )
