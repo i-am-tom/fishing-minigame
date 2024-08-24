@@ -1,10 +1,15 @@
-module State exposing (State, deserialize, serialize)
+module State exposing (State, deserialize, initial, serialize)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
 
 type alias State =
   { money: Float
+  }
+
+initial : State
+initial =
+  { money = 0
   }
 
 serialize : State -> Encode.Value
