@@ -3,8 +3,10 @@ module Main exposing (main)
 import Browser exposing (element)
 import Html exposing (..)
 import State exposing (State)
+import Time
+import Update exposing (Msg (..))
 
-main : Program () State ()
+main : Program () State Msg
 main =
   element
     { init = \_ ->
@@ -24,5 +26,6 @@ main =
         )
 
     , subscriptions = \_ ->
-        Sub.none
+        Time.every 1000 <| \_ ->
+          Update.AdvanceGameClock
     }
