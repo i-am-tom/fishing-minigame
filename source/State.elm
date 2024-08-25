@@ -1,4 +1,4 @@
-module State exposing (State, Resources, deserialize, initial, serialize)
+module State exposing (Resources, State, deserialize, initial, serialize)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
