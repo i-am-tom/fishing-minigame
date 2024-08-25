@@ -1,6 +1,16 @@
 module Constants exposing (..)
 
 
+fishPerTrip : Float
+fishPerTrip =
+    1
+
+
 fishPricePerKilo : Float
 fishPricePerKilo =
-    2
+    10
+
+
+fisherWages : Float
+fisherWages =
+    9
