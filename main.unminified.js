@@ -600,11 +600,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.bP.aU === region.cc.aU)
+	if (region.bR.aY === region.ce.aY)
 	{
-		return 'on line ' + region.bP.aU;
+		return 'on line ' + region.bR.aY;
 	}
-	return 'on lines ' + region.bP.aU + ' through ' + region.cc.aU;
+	return 'on lines ' + region.bR.aY + ' through ' + region.ce.aY;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.dy,
-		impl.eb,
-		impl.d5,
+		impl.dA,
+		impl.ed,
+		impl.d7,
 		function() { return function() {} }
 	);
 });
@@ -2720,8 +2720,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		V: func(record.V),
-		bQ: record.bQ,
-		bL: record.bL
+		bS: record.bS,
+		bN: record.bN
 	}
 });
 
@@ -2990,10 +2990,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.V;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.bQ;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.bS;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.bL) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.bN) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.dy,
-		impl.eb,
-		impl.d5,
+		impl.dA,
+		impl.ed,
+		impl.d7,
 		function(sendToApp, initialModel) {
-			var view = impl.ed;
+			var view = impl.ef;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.dy,
-		impl.eb,
-		impl.d5,
+		impl.dA,
+		impl.ed,
+		impl.d7,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.bN && impl.bN(sendToApp)
-			var view = impl.ed;
+			var divertHrefToApp = impl.bP && impl.bP(sendToApp)
+			var view = impl.ef;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3992,12 +3992,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.db);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.dd);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.d9) && (_VirtualDom_doc.title = title = doc.d9);
+				(title !== doc.eb) && (_VirtualDom_doc.title = title = doc.eb);
 			});
 		}
 	);
@@ -4053,12 +4053,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.dS;
-	var onUrlRequest = impl.dT;
+	var onUrlChange = impl.dU;
+	var onUrlRequest = impl.dV;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		bN: function(sendToApp)
+		bP: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.cI === next.cI
-							&& curr.cl === next.cl
-							&& curr.cF.a === next.cF.a
+							&& curr.cK === next.cK
+							&& curr.cn === next.cn
+							&& curr.cH.a === next.cH.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		dy: function(flags)
+		dA: function(flags)
 		{
-			return A3(impl.dy, flags, _Browser_getUrl(), key);
+			return A3(impl.dA, flags, _Browser_getUrl(), key);
 		},
+		ef: impl.ef,
 		ed: impl.ed,
-		eb: impl.eb,
-		d5: impl.d5
+		d7: impl.d7
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { du: 'hidden', de: 'visibilitychange' }
+		? { dw: 'hidden', dg: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { du: 'mozHidden', de: 'mozvisibilitychange' }
+		? { dw: 'mozHidden', dg: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { du: 'msHidden', de: 'msvisibilitychange' }
+		? { dw: 'msHidden', dg: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { du: 'webkitHidden', de: 'webkitvisibilitychange' }
-		: { du: 'hidden', de: 'visibilitychange' };
+		? { dw: 'webkitHidden', dg: 'webkitvisibilitychange' }
+		: { dw: 'hidden', dg: 'visibilitychange' };
 }
 
 
@@ -4247,12 +4247,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		cO: _Browser_getScene(),
-		c_: {
-			c1: _Browser_window.pageXOffset,
-			c2: _Browser_window.pageYOffset,
-			c0: _Browser_doc.documentElement.clientWidth,
-			ck: _Browser_doc.documentElement.clientHeight
+		cQ: _Browser_getScene(),
+		c0: {
+			c3: _Browser_window.pageXOffset,
+			c4: _Browser_window.pageYOffset,
+			c2: _Browser_doc.documentElement.clientWidth,
+			cm: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4262,8 +4262,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		c0: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		ck: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		c2: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		cm: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4286,15 +4286,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			cO: {
-				c0: node.scrollWidth,
-				ck: node.scrollHeight
+			cQ: {
+				c2: node.scrollWidth,
+				cm: node.scrollHeight
 			},
-			c_: {
-				c1: node.scrollLeft,
-				c2: node.scrollTop,
-				c0: node.clientWidth,
-				ck: node.clientHeight
+			c0: {
+				c3: node.scrollLeft,
+				c4: node.scrollTop,
+				c2: node.clientWidth,
+				cm: node.clientHeight
 			}
 		};
 	});
@@ -4324,18 +4324,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			cO: _Browser_getScene(),
-			c_: {
-				c1: x,
-				c2: y,
-				c0: _Browser_doc.documentElement.clientWidth,
-				ck: _Browser_doc.documentElement.clientHeight
+			cQ: _Browser_getScene(),
+			c0: {
+				c3: x,
+				c4: y,
+				c2: _Browser_doc.documentElement.clientWidth,
+				cm: _Browser_doc.documentElement.clientHeight
 			},
-			dn: {
-				c1: x + rect.left,
-				c2: y + rect.top,
-				c0: rect.width,
-				ck: rect.height
+			dp: {
+				c3: x + rect.left,
+				c4: y + rect.top,
+				c2: rect.width,
+				cm: rect.height
 			}
 		};
 	});
@@ -4965,7 +4965,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {cg: fragment, cl: host, cD: path, cF: port_, cI: protocol, cJ: query};
+		return {ci: fragment, cn: host, cF: path, cH: port_, cK: protocol, cL: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5250,7 +5250,7 @@ var $elm$time$Time$Every = F2(
 	});
 var $elm$time$Time$State = F2(
 	function (taggers, processes) {
-		return {cH: processes, cV: taggers};
+		return {cJ: processes, cX: taggers};
 	});
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
@@ -5542,7 +5542,7 @@ var $elm$time$Time$spawnHelp = F3(
 	});
 var $elm$time$Time$onEffects = F3(
 	function (router, subs, _v0) {
-		var processes = _v0.cH;
+		var processes = _v0.cJ;
 		var rightStep = F3(
 			function (_v6, id, _v7) {
 				var spawns = _v7.a;
@@ -5611,7 +5611,7 @@ var $elm$time$Time$millisToPosix = $elm$core$Basics$identity;
 var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
 var $elm$time$Time$onSelfMsg = F3(
 	function (router, interval, state) {
-		var _v0 = A2($elm$core$Dict$get, interval, state.cV);
+		var _v0 = A2($elm$core$Dict$get, interval, state.cX);
 		if (_v0.$ === 1) {
 			return $elm$core$Task$succeed(state);
 		} else {
@@ -5657,15 +5657,28 @@ var $elm$time$Time$every = F2(
 		return $elm$time$Time$subscription(
 			A2($elm$time$Time$Every, interval, tagger));
 	});
+var $author$project$Constants$fishPerTrip = 1;
+var $author$project$Constants$fisherWages = 9;
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
 var $author$project$State$Delta$gradient = function (state) {
+	var updatedMoney = ((-1) * state.bQ.bB) * $author$project$Constants$fisherWages;
+	var updatedFish = state.bQ.bB * $author$project$Constants$fishPerTrip;
 	return {
-		bG: 0,
-		bM: {bz: 0}
+		bI: ((state.bI + updatedMoney) < 0) ? (-state.bI) : updatedMoney,
+		bO: {
+			bA: ((updatedMoney + state.bI) > 0) ? updatedFish : 0
+		},
+		bQ: {
+			bB: ((state.bI + updatedMoney) < 0) ? (-state.bQ.bB) : 0
+		}
 	};
 };
 var $author$project$State$initial = {
-	bG: 0,
-	bM: {bz: 0}
+	bI: 0,
+	bO: {bA: 0},
+	bQ: {bB: 0}
 };
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
@@ -5675,8 +5688,9 @@ var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$State$Delta$step = F2(
 	function (delta, state) {
 		return {
-			bG: state.bG + delta.bG,
-			bM: {bz: state.bM.bz + delta.bM.bz}
+			bI: state.bI + delta.bI,
+			bO: {bA: state.bO.bA + delta.bO.bA},
+			bQ: {bB: state.bQ.bB + delta.bQ.bB}
 		};
 	});
 var $rtfeldman$elm_css$VirtualDom$Styled$UnscopedStyles = function (a) {
@@ -5685,7 +5699,7 @@ var $rtfeldman$elm_css$VirtualDom$Styled$UnscopedStyles = function (a) {
 var $elm$core$String$cons = _String_cons;
 var $robinheghan$murmur3$Murmur3$HashData = F4(
 	function (shift, seed, hash, charsProcessed) {
-		return {ap: charsProcessed, aw: hash, cP: seed, aC: shift};
+		return {aq: charsProcessed, aw: hash, cR: seed, aC: shift};
 	});
 var $robinheghan$murmur3$Murmur3$c1 = 3432918353;
 var $robinheghan$murmur3$Murmur3$c2 = 461845907;
@@ -5704,14 +5718,14 @@ var $robinheghan$murmur3$Murmur3$rotlBy = F2(
 	});
 var $elm$core$Bitwise$xor = _Bitwise_xor;
 var $robinheghan$murmur3$Murmur3$finalize = function (data) {
-	var acc = (!(!data.aw)) ? (data.cP ^ A2(
+	var acc = (!(!data.aw)) ? (data.cR ^ A2(
 		$robinheghan$murmur3$Murmur3$multiplyBy,
 		$robinheghan$murmur3$Murmur3$c2,
 		A2(
 			$robinheghan$murmur3$Murmur3$rotlBy,
 			15,
-			A2($robinheghan$murmur3$Murmur3$multiplyBy, $robinheghan$murmur3$Murmur3$c1, data.aw)))) : data.cP;
-	var h0 = acc ^ data.ap;
+			A2($robinheghan$murmur3$Murmur3$multiplyBy, $robinheghan$murmur3$Murmur3$c1, data.aw)))) : data.cR;
+	var h0 = acc ^ data.aq;
 	var h1 = A2($robinheghan$murmur3$Murmur3$multiplyBy, 2246822507, h0 ^ (h0 >>> 16));
 	var h2 = A2($robinheghan$murmur3$Murmur3$multiplyBy, 3266489909, h1 ^ (h1 >>> 13));
 	return (h2 ^ (h2 >>> 16)) >>> 0;
@@ -5739,13 +5753,13 @@ var $robinheghan$murmur3$Murmur3$hashFold = F2(
 		var _v0 = data.aC;
 		if (_v0 === 24) {
 			return {
-				ap: data.ap + 1,
+				aq: data.aq + 1,
 				aw: 0,
-				cP: A2($robinheghan$murmur3$Murmur3$mix, data.cP, res),
+				cR: A2($robinheghan$murmur3$Murmur3$mix, data.cR, res),
 				aC: 0
 			};
 		} else {
-			return {ap: data.ap + 1, aw: res, cP: data.cP, aC: data.aC + 8};
+			return {aq: data.aq + 1, aw: res, cR: data.cR, aC: data.aC + 8};
 		}
 	});
 var $robinheghan$murmur3$Murmur3$hashString = F2(
@@ -5759,9 +5773,6 @@ var $robinheghan$murmur3$Murmur3$hashString = F2(
 	});
 var $rtfeldman$elm_css$Hash$initialSeed = 15739;
 var $elm$core$String$fromList = _String_fromList;
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
 var $elm$core$Basics$modBy = _Basics_modBy;
 var $rtfeldman$elm_hex$Hex$unsafeToDigit = function (num) {
 	unsafeToDigit:
@@ -6437,7 +6448,7 @@ var $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled = function (vdom) {
 };
 var $rtfeldman$elm_css$Html$Styled$toUnstyled = $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled;
 var $author$project$Update$NoOp = {$: 0};
-var $author$project$Constants$fishPricePerKilo = 2;
+var $author$project$Constants$fishPricePerKilo = 10;
 var $elm$random$Random$Generator = $elm$core$Basics$identity;
 var $elm$core$Basics$abs = function (n) {
 	return (n < 0) ? (-n) : n;
@@ -6563,7 +6574,7 @@ var $author$project$Update$update = F2(
 		switch (msg.$) {
 			case 0:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
-			case 3:
+			case 1:
 				var entries = msg.a;
 				var generateEntry = function (_v1) {
 					var key = _v1.a;
@@ -6584,27 +6595,38 @@ var $author$project$Update$update = F2(
 							generateEntry,
 							$pzp1997$assoc_list$AssocList$toList(entries))));
 				return _Utils_Tuple2(model, results);
-			case 1:
-				var resources = model.bM;
+			case 2:
+				var resources = model.bO;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							bM: _Utils_update(
+							bO: _Utils_update(
 								resources,
-								{bz: model.bM.bz + 1})
+								{bA: model.bO.bA + 1})
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 4:
+				var resources = model.bO;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							bI: model.bI + (model.bO.bA * $author$project$Constants$fishPricePerKilo),
+							bO: _Utils_update(
+								resources,
+								{bA: 0})
 						}),
 					$elm$core$Platform$Cmd$none);
 			default:
-				var resources = model.bM;
+				var staff = model.bQ;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							bG: model.bG + (model.bM.bz * $author$project$Constants$fishPricePerKilo),
-							bM: _Utils_update(
-								resources,
-								{bz: 0})
+							bQ: _Utils_update(
+								staff,
+								{bB: model.bQ.bB + 1})
 						}),
 					$elm$core$Platform$Cmd$none);
 		}
@@ -6691,23 +6713,23 @@ var $elm$core$String$fromFloat = _String_fromNumber;
 var $rtfeldman$elm_css$Css$Internal$lengthConverter = F3(
 	function (units, unitLabel, numericValue) {
 		return {
-			bV: 0,
-			b4: 0,
-			at: 0,
+			bX: 0,
+			b6: 0,
+			au: 0,
 			w: 0,
 			n: 0,
 			ax: 0,
 			T: 0,
 			ay: 0,
 			az: 0,
-			ad: 0,
 			ae: 0,
+			af: 0,
 			M: 0,
 			aA: 0,
 			W: numericValue,
 			aF: 0,
 			aH: unitLabel,
-			a1: units,
+			a5: units,
 			O: _Utils_ap(
 				$elm$core$String$fromFloat(numericValue),
 				unitLabel)
@@ -6733,12 +6755,13 @@ var $rtfeldman$elm_css$Css$prop1 = F2(
 		return A2($rtfeldman$elm_css$Css$property, key, arg.O);
 	});
 var $rtfeldman$elm_css$Css$center = $rtfeldman$elm_css$Css$prop1('center');
-var $rtfeldman$elm_css$Css$row = {bA: 0, aR: 0, O: 'row'};
+var $rtfeldman$elm_css$Css$row = {bC: 0, aT: 0, O: 'row'};
 var $rtfeldman$elm_css$Css$column = _Utils_update(
 	$rtfeldman$elm_css$Css$row,
 	{O: 'column'});
-var $author$project$Update$CatchFish = {$: 1};
-var $author$project$Update$SellFish = {$: 2};
+var $author$project$Update$CatchFish = {$: 2};
+var $author$project$Update$HireFisher = {$: 3};
+var $author$project$Update$SellFish = {$: 4};
 var $rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 	function (a, b, c) {
 		return {$: 0, a: a, b: b, c: c};
@@ -6829,8 +6852,8 @@ var $rtfeldman$elm_css$Css$Structure$compactHelp = F2(
 					A2($elm$core$List$cons, declaration, declarations));
 			case 6:
 				var record = declaration.a;
-				return $elm$core$String$isEmpty(record.di) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
-					A3($elm$core$Dict$insert, record.dH, record.di, keyframesByName),
+				return $elm$core$String$isEmpty(record.dk) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
+					A3($elm$core$Dict$insert, record.dJ, record.dk, keyframesByName),
 					declarations);
 			case 7:
 				var properties = declaration.a;
@@ -6876,7 +6899,7 @@ var $rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations = F2(
 					var name = _v0.a;
 					var decl = _v0.b;
 					return $rtfeldman$elm_css$Css$Structure$Keyframes(
-						{di: decl, dH: name});
+						{dk: decl, dJ: name});
 				},
 				$elm$core$Dict$toList(keyframesByName)),
 			compactedDeclarations);
@@ -6892,15 +6915,15 @@ var $rtfeldman$elm_css$Css$Structure$compactDeclarations = function (declaration
 	return A2($rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations, keyframesByName, compactedDeclarations);
 };
 var $rtfeldman$elm_css$Css$Structure$compactStylesheet = function (_v0) {
-	var charset = _v0.b6;
-	var imports = _v0.cm;
-	var namespaces = _v0.cv;
-	var declarations = _v0.dj;
+	var charset = _v0.b8;
+	var imports = _v0.co;
+	var namespaces = _v0.cx;
+	var declarations = _v0.dl;
 	return {
-		b6: charset,
-		dj: $rtfeldman$elm_css$Css$Structure$compactDeclarations(declarations),
-		cm: imports,
-		cv: namespaces
+		b8: charset,
+		dl: $rtfeldman$elm_css$Css$Structure$compactDeclarations(declarations),
+		co: imports,
+		cx: namespaces
 	};
 };
 var $elm$core$Maybe$map = F2(
@@ -6955,7 +6978,7 @@ var $rtfeldman$elm_css$Css$String$mapJoin = F3(
 		return A4($rtfeldman$elm_css$Css$String$mapJoinHelp, map, sep, strs, '');
 	});
 var $rtfeldman$elm_css$Css$Structure$Output$mediaExpressionToString = function (expression) {
-	return '(' + (expression.ce + (A2(
+	return '(' + (expression.cg + (A2(
 		$elm$core$Maybe$withDefault,
 		'',
 		A2(
@@ -7134,8 +7157,8 @@ var $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (d
 		case 5:
 			return 'TODO';
 		case 6:
-			var name = decl.a.dH;
-			var declaration = decl.a.di;
+			var name = decl.a.dJ;
+			var declaration = decl.a.dk;
 			return '@keyframes ' + (name + ('{' + (declaration + '}')));
 		case 7:
 			return 'TODO';
@@ -7146,10 +7169,10 @@ var $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (d
 	}
 };
 var $rtfeldman$elm_css$Css$Structure$Output$prettyPrint = function (_v0) {
-	var charset = _v0.b6;
-	var imports = _v0.cm;
-	var namespaces = _v0.cv;
-	var declarations = _v0.dj;
+	var charset = _v0.b8;
+	var imports = _v0.co;
+	var namespaces = _v0.cx;
+	var declarations = _v0.dl;
 	return $rtfeldman$elm_css$Css$Structure$Output$charsetToString(charset) + (A3($rtfeldman$elm_css$Css$String$mapJoin, $rtfeldman$elm_css$Css$Structure$Output$importToString, '\n', imports) + (A3($rtfeldman$elm_css$Css$String$mapJoin, $rtfeldman$elm_css$Css$Structure$Output$namespaceToString, '\n', namespaces) + (A3($rtfeldman$elm_css$Css$String$mapJoin, $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration, '\n', declarations) + '')));
 };
 var $elm$core$List$concat = function (lists) {
@@ -8050,7 +8073,7 @@ var $rtfeldman$elm_css$Css$Preprocess$Resolve$applyStyles = F2(
 						_List_fromArray(
 							[
 								$rtfeldman$elm_css$Css$Structure$Keyframes(
-								{di: str, dH: name})
+								{dk: str, dJ: name})
 							]));
 				case 4:
 					var _v12 = styles.a;
@@ -8184,13 +8207,13 @@ var $rtfeldman$elm_css$Css$Preprocess$Resolve$toDeclarations = function (snippet
 	}
 };
 var $rtfeldman$elm_css$Css$Preprocess$Resolve$toStructure = function (_v0) {
-	var charset = _v0.b6;
-	var imports = _v0.cm;
-	var namespaces = _v0.cv;
-	var snippets = _v0.cR;
+	var charset = _v0.b8;
+	var imports = _v0.co;
+	var namespaces = _v0.cx;
+	var snippets = _v0.cT;
 	var declarations = $rtfeldman$elm_css$Css$Preprocess$Resolve$extract(
 		A2($elm$core$List$concatMap, $rtfeldman$elm_css$Css$Preprocess$unwrapSnippet, snippets));
-	return {b6: charset, dj: declarations, cm: imports, cv: namespaces};
+	return {b8: charset, dl: declarations, co: imports, cx: namespaces};
 };
 var $rtfeldman$elm_css$Css$Preprocess$Resolve$compile = function (sheet) {
 	return $rtfeldman$elm_css$Css$Structure$Output$prettyPrint(
@@ -8215,7 +8238,7 @@ var $rtfeldman$elm_css$VirtualDom$Styled$makeSnippet = F2(
 			]);
 	});
 var $rtfeldman$elm_css$Css$Preprocess$stylesheet = function (snippets) {
-	return {b6: $elm$core$Maybe$Nothing, cm: _List_Nil, cv: _List_Nil, cR: snippets};
+	return {b8: $elm$core$Maybe$Nothing, co: _List_Nil, cx: _List_Nil, cT: snippets};
 };
 var $rtfeldman$elm_css$Css$Structure$ClassSelector = function (a) {
 	return {$: 0, a: a};
@@ -8250,14 +8273,14 @@ var $rtfeldman$elm_css$Css$UnitlessInteger = 0;
 var $rtfeldman$elm_css$Css$int = function (val) {
 	return {
 		aa: 0,
-		bb: 0,
-		ae: 0,
+		bc: 0,
+		af: 0,
 		M: 0,
-		aW: 0,
+		a_: 0,
 		bf: 0,
 		W: val,
 		aH: '',
-		a1: 0,
+		a5: 0,
 		O: $elm$core$String$fromInt(val)
 	};
 };
@@ -8332,6 +8355,16 @@ var $author$project$View$Controls$controls = function (state) {
 				_List_fromArray(
 					[
 						$rtfeldman$elm_css$Html$Styled$text('Sell fish')
+					])),
+				A2(
+				$rtfeldman$elm_css$Html$Styled$button,
+				_List_fromArray(
+					[
+						$rtfeldman$elm_css$Html$Styled$Events$onClick($author$project$Update$HireFisher)
+					]),
+				_List_fromArray(
+					[
+						$rtfeldman$elm_css$Html$Styled$text('Hire fisher')
 					]))
 			]));
 };
@@ -8344,9 +8377,9 @@ var $rtfeldman$elm_css$Css$erroneousHex = function (str) {
 	return {
 		aN: 1,
 		aP: 0,
-		a5: 0,
-		aT: 0,
-		aY: 0,
+		aQ: 0,
+		aW: 0,
+		a0: 0,
 		O: $rtfeldman$elm_css$Css$withPrecedingHash(str)
 	};
 };
@@ -8608,9 +8641,9 @@ var $rtfeldman$elm_css$Css$validHex = F5(
 			return {
 				aN: alpha / 255,
 				aP: blue,
-				a5: 0,
-				aT: green,
-				aY: red,
+				aQ: 0,
+				aW: green,
+				a0: red,
 				O: $rtfeldman$elm_css$Css$withPrecedingHash(str)
 			};
 		} else {
@@ -8750,7 +8783,7 @@ var $rtfeldman$elm_css$Css$prop3 = F4(
 		return A2($rtfeldman$elm_css$Css$property, key, argA.O + (' ' + (argB.O + (' ' + argC.O))));
 	});
 var $rtfeldman$elm_css$Css$borderBottom3 = $rtfeldman$elm_css$Css$prop3('border-bottom');
-var $rtfeldman$elm_css$Css$borderBox = {bx: 0, a4: 0, O: 'border-box'};
+var $rtfeldman$elm_css$Css$borderBox = {by: 0, a8: 0, O: 'border-box'};
 var $rtfeldman$elm_css$Css$prop4 = F5(
 	function (key, argA, argB, argC, argD) {
 		return A2($rtfeldman$elm_css$Css$property, key, argA.O + (' ' + (argB.O + (' ' + (argC.O + (' ' + argD.O))))));
@@ -8772,7 +8805,7 @@ var $rtfeldman$elm_css$Css$margin = $rtfeldman$elm_css$Css$prop1('margin');
 var $rtfeldman$elm_css$Css$PcUnits = 0;
 var $rtfeldman$elm_css$Css$pc = A2($rtfeldman$elm_css$Css$Internal$lengthConverter, 0, 'pc');
 var $rtfeldman$elm_css$Css$position = $rtfeldman$elm_css$Css$prop1('position');
-var $rtfeldman$elm_css$Css$solid = {z: 0, ai: 0, O: 'solid'};
+var $rtfeldman$elm_css$Css$solid = {z: 0, aj: 0, O: 'solid'};
 var $rtfeldman$elm_css$Css$spaceBetween = $rtfeldman$elm_css$Css$prop1('space-between');
 var $rtfeldman$elm_css$VirtualDom$Styled$property = F2(
 	function (key, value) {
@@ -8792,7 +8825,7 @@ var $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty = F2(
 var $rtfeldman$elm_css$Html$Styled$Attributes$src = function (url) {
 	return A2($rtfeldman$elm_css$Html$Styled$Attributes$stringProperty, 'src', url);
 };
-var $rtfeldman$elm_css$Css$sticky = {aX: 0, O: 'sticky'};
+var $rtfeldman$elm_css$Css$sticky = {a$: 0, O: 'sticky'};
 var $author$project$View$navigation = A2(
 	$rtfeldman$elm_css$Html$Styled$div,
 	_List_fromArray(
@@ -8888,9 +8921,9 @@ var $rtfeldman$elm_css$Css$rgb = F3(
 		return {
 			aN: 1,
 			aP: b,
-			a5: 0,
-			aT: g,
-			aY: r,
+			aQ: 0,
+			aW: g,
+			a0: r,
 			O: A2(
 				$rtfeldman$elm_css$Css$cssFunction,
 				'rgb',
@@ -8904,40 +8937,54 @@ var $rtfeldman$elm_css$Css$rgb = F3(
 var $author$project$View$Statistics$displays = _List_fromArray(
 	[
 		{
-		a5: A3($rtfeldman$elm_css$Css$rgb, 79, 79, 79),
-		a6: function (s) {
-			return s.bM.bz;
+		aQ: A3($rtfeldman$elm_css$Css$rgb, 79, 79, 79),
+		aR: function (s) {
+			return s.bO.bA;
 		},
-		av: function (s) {
+		ab: function (s) {
 			return s + 'kg';
 		},
-		ba: function (s) {
-			return s.bM.bz;
+		aV: function (s) {
+			return s.bO.bA;
 		},
-		bc: 'Fish',
-		bO: function (_v0) {
+		aX: 'Fish',
+		bo: function (_v0) {
 			return true;
 		}
 	},
 		{
-		a5: A3($rtfeldman$elm_css$Css$rgb, 33, 150, 83),
-		a6: function ($) {
-			return $.bG;
+		aQ: A3($rtfeldman$elm_css$Css$rgb, 33, 150, 83),
+		aR: function ($) {
+			return $.bI;
 		},
-		av: function (s) {
+		ab: function (s) {
 			return '$' + s;
 		},
-		ba: function ($) {
-			return $.bG;
+		aV: function ($) {
+			return $.bI;
 		},
-		bc: 'Money',
-		bO: function (_v1) {
+		aX: 'Money',
+		bo: function (_v1) {
+			return true;
+		}
+	},
+		{
+		aQ: A3($rtfeldman$elm_css$Css$rgb, 79, 79, 79),
+		aR: function (s) {
+			return s.bQ.bB;
+		},
+		ab: $elm$core$Basics$identity,
+		aV: function (s) {
+			return s.bQ.bB;
+		},
+		aX: 'Fishers',
+		bo: function (_v2) {
 			return true;
 		}
 	}
 	]);
 var $rtfeldman$elm_css$Css$listStyleType = $rtfeldman$elm_css$Css$prop1('list-style-type');
-var $rtfeldman$elm_css$Css$none = {an: 0, b1: 0, z: 0, b: 0, k: 0, dv: 0, co: 0, bD: 0, az: 0, ad: 0, M: 0, d: 0, c: 0, bI: 0, bh: 0, dW: 0, J: 0, bi: 0, d2: 0, aE: 0, aj: 0, C: 0, h: 0, ec: 0, O: 'none'};
+var $rtfeldman$elm_css$Css$none = {ao: 0, b3: 0, z: 0, b: 0, k: 0, dx: 0, cq: 0, bF: 0, az: 0, ae: 0, M: 0, d: 0, c: 0, bK: 0, bh: 0, dY: 0, J: 0, bi: 0, d4: 0, aE: 0, ak: 0, C: 0, h: 0, ee: 0, O: 'none'};
 var $rtfeldman$elm_css$Css$color = function (c) {
 	return A2($rtfeldman$elm_css$Css$property, 'color', c.O);
 };
@@ -8994,7 +9041,7 @@ var $erosson$number_suffix$NumberSuffix$dropIntDecimals = function (val) {
 };
 var $cuducos$elm_format_number$Parser$FormattedNumber = F5(
 	function (original, integers, decimals, prefix, suffix) {
-		return {dh: decimals, cp: integers, cB: original, bK: prefix, bR: suffix};
+		return {dj: decimals, cr: integers, cD: original, bM: prefix, bT: suffix};
 	});
 var $cuducos$elm_format_number$Parser$Negative = 2;
 var $cuducos$elm_format_number$Parser$Positive = 0;
@@ -9011,9 +9058,9 @@ var $cuducos$elm_format_number$Parser$classify = function (formatted) {
 		$elm$core$String$concat(
 			A2(
 				$elm$core$List$append,
-				formatted.cp,
-				$elm$core$List$singleton(formatted.dh))));
-	return onlyZeros ? 1 : ((formatted.cB < 0) ? 2 : 0);
+				formatted.cr,
+				$elm$core$List$singleton(formatted.dj))));
+	return onlyZeros ? 1 : ((formatted.cD < 0) ? 2 : 0);
 };
 var $elm$core$List$drop = F2(
 	function (n, list) {
@@ -9265,7 +9312,7 @@ var $cuducos$elm_format_number$Parser$parse = F2(
 		var parts = A2(
 			$elm$core$String$split,
 			'.',
-			A2($myrho$elm_round$Round$round, locale.dh, original));
+			A2($myrho$elm_round$Round$round, locale.dj, original));
 		var integers = $cuducos$elm_format_number$Parser$splitThousands(
 			A2(
 				$elm$core$String$filter,
@@ -9285,18 +9332,18 @@ var $cuducos$elm_format_number$Parser$parse = F2(
 			case 2:
 				return _Utils_update(
 					partial,
-					{bK: locale.dJ, bR: locale.dK});
+					{bM: locale.dL, bT: locale.dM});
 			case 0:
 				return _Utils_update(
 					partial,
-					{bK: locale.dX, bR: locale.dY});
+					{bM: locale.dZ, bT: locale.d_});
 			default:
 				return partial;
 		}
 	});
 var $cuducos$elm_format_number$Stringfy$formatDecimals = F2(
 	function (locale, decimals) {
-		return (decimals === '') ? '' : _Utils_ap(locale.dg, decimals);
+		return (decimals === '') ? '' : _Utils_ap(locale.di, decimals);
 	});
 var $cuducos$elm_format_number$Stringfy$removeZeros = function (decimals) {
 	return (A2($elm$core$String$right, 1, decimals) !== '0') ? decimals : $cuducos$elm_format_number$Stringfy$removeZeros(
@@ -9305,12 +9352,12 @@ var $cuducos$elm_format_number$Stringfy$removeZeros = function (decimals) {
 var $cuducos$elm_format_number$Stringfy$humanizeDecimals = F3(
 	function (locale, strategy, decimals) {
 		if ((decimals === '') || _Utils_eq(
-			A2($elm$core$String$repeat, locale.dh, '0'),
+			A2($elm$core$String$repeat, locale.dj, '0'),
 			decimals)) {
 			return '';
 		} else {
 			if (!strategy) {
-				return _Utils_ap(locale.dg, decimals);
+				return _Utils_ap(locale.di, decimals);
 			} else {
 				return A2(
 					$cuducos$elm_format_number$Stringfy$formatDecimals,
@@ -9329,11 +9376,11 @@ var $cuducos$elm_format_number$Stringfy$stringfy = F3(
 				return $cuducos$elm_format_number$Stringfy$formatDecimals(locale);
 			}
 		}();
-		var integers = A2($elm$core$String$join, locale.d8, formatted.cp);
-		var decimals = stringfyDecimals(formatted.dh);
+		var integers = A2($elm$core$String$join, locale.ea, formatted.cr);
+		var decimals = stringfyDecimals(formatted.dj);
 		return $elm$core$String$concat(
 			_List_fromArray(
-				[formatted.bK, integers, decimals, formatted.bR]));
+				[formatted.bM, integers, decimals, formatted.bT]));
 	});
 var $cuducos$elm_format_number$FormatNumber$format = F2(
 	function (locale, number_) {
@@ -9354,16 +9401,16 @@ var $erosson$number_suffix$NumberSuffix$formatLocaleSigfigs = F3(
 			$cuducos$elm_format_number$FormatNumber$format,
 			_Utils_update(
 				locale,
-				{dh: decimals}),
+				{dj: decimals}),
 			A3($erosson$number_suffix$NumberSuffix$roundTo, $elm$core$Basics$truncate, decimals, val));
 	});
 var $erosson$number_suffix$NumberSuffix$formatSigExp = F3(
 	function (_v0, sig0, exp) {
-		var getSuffix = _v0.dt;
-		var sigfigs = _v0.d4;
-		var locale = _v0.bE;
-		var suffixDivisor = _v0.bo;
-		var minSuffix = _v0.dF;
+		var getSuffix = _v0.dv;
+		var sigfigs = _v0.d6;
+		var locale = _v0.bG;
+		var suffixDivisor = _v0.bp;
+		var minSuffix = _v0.dH;
 		var sig = sig0 * A2(
 			$elm$core$Basics$pow,
 			10,
@@ -9383,7 +9430,7 @@ var $erosson$number_suffix$NumberSuffix$format = F2(
 		var sig = n / A2($elm$core$Basics$pow, 10, exp);
 		return A3($erosson$number_suffix$NumberSuffix$formatSigExp, config, sig, exp);
 	});
-var $rtfeldman$elm_css$Css$hidden = {z: 0, aB: 0, O: 'hidden', a2: 0};
+var $rtfeldman$elm_css$Css$hidden = {z: 0, aB: 0, O: 'hidden', a6: 0};
 var $rtfeldman$elm_css$Html$Styled$li = $rtfeldman$elm_css$Html$Styled$node('li');
 var $rtfeldman$elm_css$Css$overflowX = $rtfeldman$elm_css$Css$prop1('overflow-x');
 var $elm$core$Array$bitMask = 4294967295 >>> (32 - $elm$core$Array$shiftStep);
@@ -9478,17 +9525,17 @@ var $erosson$number_suffix$NumberSuffixData$standard = $elm$core$Array$fromList(
 var $erosson$number_suffix$NumberSuffix$suffixStandard = $erosson$number_suffix$NumberSuffix$getListSuffix($erosson$number_suffix$NumberSuffixData$standard);
 var $cuducos$elm_format_number$FormatNumber$Locales$Locale = F7(
 	function (decimals, thousandSeparator, decimalSeparator, negativePrefix, negativeSuffix, positivePrefix, positiveSuffix) {
-		return {dg: decimalSeparator, dh: decimals, dJ: negativePrefix, dK: negativeSuffix, dX: positivePrefix, dY: positiveSuffix, d8: thousandSeparator};
+		return {di: decimalSeparator, dj: decimals, dL: negativePrefix, dM: negativeSuffix, dZ: positivePrefix, d_: positiveSuffix, ea: thousandSeparator};
 	});
 var $cuducos$elm_format_number$FormatNumber$Locales$usLocale = A7($cuducos$elm_format_number$FormatNumber$Locales$Locale, 2, ',', '.', '−', '', '', '');
 var $erosson$number_suffix$NumberSuffix$standardConfig = {
-	dt: $erosson$number_suffix$NumberSuffix$suffixStandard,
-	bE: _Utils_update(
+	dv: $erosson$number_suffix$NumberSuffix$suffixStandard,
+	bG: _Utils_update(
 		$cuducos$elm_format_number$FormatNumber$Locales$usLocale,
-		{dJ: '-'}),
-	dF: 100000,
-	d4: 3,
-	bo: 3
+		{dL: '-'}),
+	dH: 100000,
+	d6: 3,
+	bp: 3
 };
 var $rtfeldman$elm_css$Html$Styled$strong = $rtfeldman$elm_css$Html$Styled$node('strong');
 var $erosson$number_suffix$NumberSuffixData$standardShort = $elm$core$Array$fromList(
@@ -9497,11 +9544,11 @@ var $erosson$number_suffix$NumberSuffixData$standardShort = $elm$core$Array$from
 var $erosson$number_suffix$NumberSuffix$suffixStandardShort = $erosson$number_suffix$NumberSuffix$getListSuffix($erosson$number_suffix$NumberSuffixData$standardShort);
 var $author$project$View$Statistics$renderDisplay = F3(
 	function (delta, state, display) {
-		var gradient = display.ba(delta);
+		var gradient = display.aV(delta);
 		var formatNumber = $erosson$number_suffix$NumberSuffix$format(
 			_Utils_update(
 				$erosson$number_suffix$NumberSuffix$standardConfig,
-				{dt: $erosson$number_suffix$NumberSuffix$suffixStandardShort, dF: 1000, d4: 3}));
+				{dv: $erosson$number_suffix$NumberSuffix$suffixStandardShort, dH: 1000, d6: 3}));
 		return A2(
 			$rtfeldman$elm_css$Html$Styled$li,
 			_List_fromArray(
@@ -9536,12 +9583,12 @@ var $author$project$View$Statistics$renderDisplay = F3(
 							$rtfeldman$elm_css$Html$Styled$Attributes$css(
 							_List_fromArray(
 								[
-									$rtfeldman$elm_css$Css$color(display.a5)
+									$rtfeldman$elm_css$Css$color(display.aQ)
 								]))
 						]),
 					_List_fromArray(
 						[
-							$rtfeldman$elm_css$Html$Styled$text(display.bc)
+							$rtfeldman$elm_css$Html$Styled$text(display.aX)
 						])),
 					A2(
 					$rtfeldman$elm_css$Html$Styled$div,
@@ -9554,14 +9601,14 @@ var $author$project$View$Statistics$renderDisplay = F3(
 							_List_fromArray(
 								[
 									$rtfeldman$elm_css$Html$Styled$text(
-									display.av(
+									display.ab(
 										formatNumber(
-											display.a6(state))))
+											display.aR(state))))
 								])),
 							(gradient > 0) ? $rtfeldman$elm_css$Html$Styled$text(
-							' + ' + (display.av(
+							' + ' + (display.ab(
 								formatNumber(gradient)) + '/s')) : ((!gradient) ? $rtfeldman$elm_css$Html$Styled$text('') : $rtfeldman$elm_css$Html$Styled$text(
-							' - ' + (display.av(
+							' - ' + (display.ab(
 								formatNumber(
 									$elm$core$Basics$abs(gradient))) + '/s')))
 						]))
@@ -9624,20 +9671,20 @@ var $author$project$View$view = F2(
 	});
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{
-		dy: function (_v0) {
+		dA: function (_v0) {
 			return _Utils_Tuple2(
 				_Utils_Tuple2(
 					$author$project$State$Delta$gradient($author$project$State$initial),
 					$author$project$State$initial),
 				$elm$core$Platform$Cmd$none);
 		},
-		d5: function (_v1) {
+		d7: function (_v1) {
 			return A2(
 				$elm$time$Time$every,
 				1000,
 				$elm$core$Basics$always($author$project$Main$AdvanceGameClock));
 		},
-		eb: F2(
+		ed: F2(
 			function (msg, _v2) {
 				var delta = _v2.a;
 				var state = _v2.b;
@@ -9658,7 +9705,7 @@ var $author$project$Main$main = $elm$browser$Browser$element(
 						A2($elm$core$Platform$Cmd$map, $author$project$Main$GameEvent, cmd));
 				}
 			}),
-		ed: function (_v5) {
+		ef: function (_v5) {
 			var delta = _v5.a;
 			var state = _v5.b;
 			return A2(
