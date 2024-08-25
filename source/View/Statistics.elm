@@ -49,6 +49,13 @@ displays =
       , gradient = .money
       , format = \s -> "$" ++ s
       }
+    , { label = "Fishers"
+      , color = rgb 79 79 79
+      , shouldShow = \_ -> True
+      , current = \s -> s.staff.fishers
+      , gradient = \s -> s.staff.fishers
+      , format = identity
+      }
     ]
 
 

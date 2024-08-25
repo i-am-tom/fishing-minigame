@@ -23,4 +23,7 @@ controls state =
         , button [ onClick SellFish ]
             [ text "Sell fish"
             ]
+        , button [ onClick HireFisher ]
+            [ text "Hire fisher"
+            ]
         ]

@@ -9,9 +9,10 @@ import State.Delta exposing (Delta, gradient, step)
 
 type Event
     = NoOp
-    | CatchFish
-    | SellFish
     | Probabilities (Dict Event Float)
+    | CatchFish
+    | HireFisher
+    | SellFish
 
 
 update : Event -> State -> ( State, Cmd Event )
@@ -67,6 +68,17 @@ update msg model =
                 | resources = { resources | fish = 0 }
                 , money =
                     model.money + model.resources.fish * Constants.fishPricePerKilo
+              }
+            , Cmd.none
+            )
+
+        HireFisher ->
+            let
+                staff =
+                    model.staff
+            in
+            ( { model
+                | staff = { staff | fishers = model.staff.fishers + 1 }
               }
             , Cmd.none
             )
