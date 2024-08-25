@@ -9,9 +9,12 @@ import Test exposing (Test, describe, fuzz)
 
 stateFuzzer : Fuzzer State
 stateFuzzer =
-    Fuzz.map2 State
+    Fuzz.map3 State
         Fuzz.niceFloat
         (Fuzz.map Resources
+            Fuzz.niceFloat
+        )
+        (Fuzz.map Staff
             Fuzz.niceFloat
         )
 
