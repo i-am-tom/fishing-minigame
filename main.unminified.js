@@ -600,11 +600,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.bO.aU === region.cb.aU)
+	if (region.bP.aU === region.cc.aU)
 	{
-		return 'on line ' + region.bO.aU;
+		return 'on line ' + region.bP.aU;
 	}
-	return 'on lines ' + region.bO.aU + ' through ' + region.cb.aU;
+	return 'on lines ' + region.bP.aU + ' through ' + region.cc.aU;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.dx,
-		impl.ea,
-		impl.d4,
+		impl.dy,
+		impl.eb,
+		impl.d5,
 		function() { return function() {} }
 	);
 });
@@ -2720,7 +2720,7 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		V: func(record.V),
-		bP: record.bP,
+		bQ: record.bQ,
 		bL: record.bL
 	}
 });
@@ -2990,7 +2990,7 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.V;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.bP;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.bQ;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
 			(tag == 2 ? value.b : tag == 3 && value.bL) && event.preventDefault(),
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.dx,
-		impl.ea,
-		impl.d4,
+		impl.dy,
+		impl.eb,
+		impl.d5,
 		function(sendToApp, initialModel) {
-			var view = impl.ec;
+			var view = impl.ed;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.dx,
-		impl.ea,
-		impl.d4,
+		impl.dy,
+		impl.eb,
+		impl.d5,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.bM && impl.bM(sendToApp)
-			var view = impl.ec;
+			var divertHrefToApp = impl.bN && impl.bN(sendToApp)
+			var view = impl.ed;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3992,12 +3992,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.da);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.db);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.d8) && (_VirtualDom_doc.title = title = doc.d8);
+				(title !== doc.d9) && (_VirtualDom_doc.title = title = doc.d9);
 			});
 		}
 	);
@@ -4053,12 +4053,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.dR;
-	var onUrlRequest = impl.dS;
+	var onUrlChange = impl.dS;
+	var onUrlRequest = impl.dT;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		bM: function(sendToApp)
+		bN: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.cH === next.cH
-							&& curr.ck === next.ck
-							&& curr.cE.a === next.cE.a
+							&& curr.cI === next.cI
+							&& curr.cl === next.cl
+							&& curr.cF.a === next.cF.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		dx: function(flags)
+		dy: function(flags)
 		{
-			return A3(impl.dx, flags, _Browser_getUrl(), key);
+			return A3(impl.dy, flags, _Browser_getUrl(), key);
 		},
-		ec: impl.ec,
-		ea: impl.ea,
-		d4: impl.d4
+		ed: impl.ed,
+		eb: impl.eb,
+		d5: impl.d5
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { dt: 'hidden', dd: 'visibilitychange' }
+		? { du: 'hidden', de: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { dt: 'mozHidden', dd: 'mozvisibilitychange' }
+		? { du: 'mozHidden', de: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { dt: 'msHidden', dd: 'msvisibilitychange' }
+		? { du: 'msHidden', de: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { dt: 'webkitHidden', dd: 'webkitvisibilitychange' }
-		: { dt: 'hidden', dd: 'visibilitychange' };
+		? { du: 'webkitHidden', de: 'webkitvisibilitychange' }
+		: { du: 'hidden', de: 'visibilitychange' };
 }
 
 
@@ -4247,12 +4247,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		cN: _Browser_getScene(),
-		cZ: {
-			c0: _Browser_window.pageXOffset,
-			c1: _Browser_window.pageYOffset,
-			c$: _Browser_doc.documentElement.clientWidth,
-			cj: _Browser_doc.documentElement.clientHeight
+		cO: _Browser_getScene(),
+		c_: {
+			c1: _Browser_window.pageXOffset,
+			c2: _Browser_window.pageYOffset,
+			c0: _Browser_doc.documentElement.clientWidth,
+			ck: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4262,8 +4262,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		c$: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		cj: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		c0: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		ck: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4286,15 +4286,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			cN: {
-				c$: node.scrollWidth,
-				cj: node.scrollHeight
+			cO: {
+				c0: node.scrollWidth,
+				ck: node.scrollHeight
 			},
-			cZ: {
-				c0: node.scrollLeft,
-				c1: node.scrollTop,
-				c$: node.clientWidth,
-				cj: node.clientHeight
+			c_: {
+				c1: node.scrollLeft,
+				c2: node.scrollTop,
+				c0: node.clientWidth,
+				ck: node.clientHeight
 			}
 		};
 	});
@@ -4324,18 +4324,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			cN: _Browser_getScene(),
-			cZ: {
-				c0: x,
-				c1: y,
-				c$: _Browser_doc.documentElement.clientWidth,
-				cj: _Browser_doc.documentElement.clientHeight
+			cO: _Browser_getScene(),
+			c_: {
+				c1: x,
+				c2: y,
+				c0: _Browser_doc.documentElement.clientWidth,
+				ck: _Browser_doc.documentElement.clientHeight
 			},
-			dm: {
-				c0: x + rect.left,
-				c1: y + rect.top,
-				c$: rect.width,
-				cj: rect.height
+			dn: {
+				c1: x + rect.left,
+				c2: y + rect.top,
+				c0: rect.width,
+				ck: rect.height
 			}
 		};
 	});
@@ -4965,7 +4965,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {cf: fragment, ck: host, cC: path, cE: port_, cH: protocol, cI: query};
+		return {cg: fragment, cl: host, cD: path, cF: port_, cI: protocol, cJ: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5250,7 +5250,7 @@ var $elm$time$Time$Every = F2(
 	});
 var $elm$time$Time$State = F2(
 	function (taggers, processes) {
-		return {cG: processes, cU: taggers};
+		return {cH: processes, cV: taggers};
 	});
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
@@ -5542,7 +5542,7 @@ var $elm$time$Time$spawnHelp = F3(
 	});
 var $elm$time$Time$onEffects = F3(
 	function (router, subs, _v0) {
-		var processes = _v0.cG;
+		var processes = _v0.cH;
 		var rightStep = F3(
 			function (_v6, id, _v7) {
 				var spawns = _v7.a;
@@ -5611,7 +5611,7 @@ var $elm$time$Time$millisToPosix = $elm$core$Basics$identity;
 var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
 var $elm$time$Time$onSelfMsg = F3(
 	function (router, interval, state) {
-		var _v0 = A2($elm$core$Dict$get, interval, state.cU);
+		var _v0 = A2($elm$core$Dict$get, interval, state.cV);
 		if (_v0.$ === 1) {
 			return $elm$core$Task$succeed(state);
 		} else {
@@ -5658,9 +5658,15 @@ var $elm$time$Time$every = F2(
 			A2($elm$time$Time$Every, interval, tagger));
 	});
 var $author$project$State$Delta$gradient = function (state) {
-	return {bz: 0, bG: 0};
+	return {
+		bG: 0,
+		bM: {bz: 0}
+	};
 };
-var $author$project$State$initial = {bz: 0, bG: 0};
+var $author$project$State$initial = {
+	bG: 0,
+	bM: {bz: 0}
+};
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
 var $elm$core$Platform$Cmd$map = _Platform_map;
@@ -5668,7 +5674,10 @@ var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$State$Delta$step = F2(
 	function (delta, state) {
-		return {bz: state.bz + delta.bz, bG: state.bG + delta.bG};
+		return {
+			bG: state.bG + delta.bG,
+			bM: {bz: state.bM.bz + delta.bM.bz}
+		};
 	});
 var $rtfeldman$elm_css$VirtualDom$Styled$UnscopedStyles = function (a) {
 	return {$: 0, a: a};
@@ -5676,7 +5685,7 @@ var $rtfeldman$elm_css$VirtualDom$Styled$UnscopedStyles = function (a) {
 var $elm$core$String$cons = _String_cons;
 var $robinheghan$murmur3$Murmur3$HashData = F4(
 	function (shift, seed, hash, charsProcessed) {
-		return {ap: charsProcessed, aw: hash, cO: seed, aC: shift};
+		return {ap: charsProcessed, aw: hash, cP: seed, aC: shift};
 	});
 var $robinheghan$murmur3$Murmur3$c1 = 3432918353;
 var $robinheghan$murmur3$Murmur3$c2 = 461845907;
@@ -5695,13 +5704,13 @@ var $robinheghan$murmur3$Murmur3$rotlBy = F2(
 	});
 var $elm$core$Bitwise$xor = _Bitwise_xor;
 var $robinheghan$murmur3$Murmur3$finalize = function (data) {
-	var acc = (!(!data.aw)) ? (data.cO ^ A2(
+	var acc = (!(!data.aw)) ? (data.cP ^ A2(
 		$robinheghan$murmur3$Murmur3$multiplyBy,
 		$robinheghan$murmur3$Murmur3$c2,
 		A2(
 			$robinheghan$murmur3$Murmur3$rotlBy,
 			15,
-			A2($robinheghan$murmur3$Murmur3$multiplyBy, $robinheghan$murmur3$Murmur3$c1, data.aw)))) : data.cO;
+			A2($robinheghan$murmur3$Murmur3$multiplyBy, $robinheghan$murmur3$Murmur3$c1, data.aw)))) : data.cP;
 	var h0 = acc ^ data.ap;
 	var h1 = A2($robinheghan$murmur3$Murmur3$multiplyBy, 2246822507, h0 ^ (h0 >>> 16));
 	var h2 = A2($robinheghan$murmur3$Murmur3$multiplyBy, 3266489909, h1 ^ (h1 >>> 13));
@@ -5732,11 +5741,11 @@ var $robinheghan$murmur3$Murmur3$hashFold = F2(
 			return {
 				ap: data.ap + 1,
 				aw: 0,
-				cO: A2($robinheghan$murmur3$Murmur3$mix, data.cO, res),
+				cP: A2($robinheghan$murmur3$Murmur3$mix, data.cP, res),
 				aC: 0
 			};
 		} else {
-			return {ap: data.ap + 1, aw: res, cO: data.cO, aC: data.aC + 8};
+			return {ap: data.ap + 1, aw: res, cP: data.cP, aC: data.aC + 8};
 		}
 	});
 var $robinheghan$murmur3$Murmur3$hashString = F2(
@@ -6428,6 +6437,7 @@ var $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled = function (vdom) {
 };
 var $rtfeldman$elm_css$Html$Styled$toUnstyled = $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled;
 var $author$project$Update$NoOp = {$: 0};
+var $author$project$Constants$fishPricePerKilo = 2;
 var $elm$random$Random$Generator = $elm$core$Basics$identity;
 var $elm$core$Basics$abs = function (n) {
 	return (n < 0) ? (-n) : n;
@@ -6575,16 +6585,27 @@ var $author$project$Update$update = F2(
 							$pzp1997$assoc_list$AssocList$toList(entries))));
 				return _Utils_Tuple2(model, results);
 			case 1:
+				var resources = model.bM;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{bz: model.bz + 1}),
+						{
+							bM: _Utils_update(
+								resources,
+								{bz: model.bM.bz + 1})
+						}),
 					$elm$core$Platform$Cmd$none);
 			default:
+				var resources = model.bM;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{bz: 0, bG: model.bG + (model.bz * 5)}),
+						{
+							bG: model.bG + (model.bM.bz * $author$project$Constants$fishPricePerKilo),
+							bM: _Utils_update(
+								resources,
+								{bz: 0})
+						}),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
@@ -6670,8 +6691,8 @@ var $elm$core$String$fromFloat = _String_fromNumber;
 var $rtfeldman$elm_css$Css$Internal$lengthConverter = F3(
 	function (units, unitLabel, numericValue) {
 		return {
-			bU: 0,
-			b3: 0,
+			bV: 0,
+			b4: 0,
 			at: 0,
 			w: 0,
 			n: 0,
@@ -6808,8 +6829,8 @@ var $rtfeldman$elm_css$Css$Structure$compactHelp = F2(
 					A2($elm$core$List$cons, declaration, declarations));
 			case 6:
 				var record = declaration.a;
-				return $elm$core$String$isEmpty(record.dh) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
-					A3($elm$core$Dict$insert, record.dG, record.dh, keyframesByName),
+				return $elm$core$String$isEmpty(record.di) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
+					A3($elm$core$Dict$insert, record.dH, record.di, keyframesByName),
 					declarations);
 			case 7:
 				var properties = declaration.a;
@@ -6855,7 +6876,7 @@ var $rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations = F2(
 					var name = _v0.a;
 					var decl = _v0.b;
 					return $rtfeldman$elm_css$Css$Structure$Keyframes(
-						{dh: decl, dG: name});
+						{di: decl, dH: name});
 				},
 				$elm$core$Dict$toList(keyframesByName)),
 			compactedDeclarations);
@@ -6871,15 +6892,15 @@ var $rtfeldman$elm_css$Css$Structure$compactDeclarations = function (declaration
 	return A2($rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations, keyframesByName, compactedDeclarations);
 };
 var $rtfeldman$elm_css$Css$Structure$compactStylesheet = function (_v0) {
-	var charset = _v0.b5;
-	var imports = _v0.cl;
-	var namespaces = _v0.cu;
-	var declarations = _v0.di;
+	var charset = _v0.b6;
+	var imports = _v0.cm;
+	var namespaces = _v0.cv;
+	var declarations = _v0.dj;
 	return {
-		b5: charset,
-		di: $rtfeldman$elm_css$Css$Structure$compactDeclarations(declarations),
-		cl: imports,
-		cu: namespaces
+		b6: charset,
+		dj: $rtfeldman$elm_css$Css$Structure$compactDeclarations(declarations),
+		cm: imports,
+		cv: namespaces
 	};
 };
 var $elm$core$Maybe$map = F2(
@@ -6934,7 +6955,7 @@ var $rtfeldman$elm_css$Css$String$mapJoin = F3(
 		return A4($rtfeldman$elm_css$Css$String$mapJoinHelp, map, sep, strs, '');
 	});
 var $rtfeldman$elm_css$Css$Structure$Output$mediaExpressionToString = function (expression) {
-	return '(' + (expression.cd + (A2(
+	return '(' + (expression.ce + (A2(
 		$elm$core$Maybe$withDefault,
 		'',
 		A2(
@@ -7113,8 +7134,8 @@ var $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (d
 		case 5:
 			return 'TODO';
 		case 6:
-			var name = decl.a.dG;
-			var declaration = decl.a.dh;
+			var name = decl.a.dH;
+			var declaration = decl.a.di;
 			return '@keyframes ' + (name + ('{' + (declaration + '}')));
 		case 7:
 			return 'TODO';
@@ -7125,10 +7146,10 @@ var $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (d
 	}
 };
 var $rtfeldman$elm_css$Css$Structure$Output$prettyPrint = function (_v0) {
-	var charset = _v0.b5;
-	var imports = _v0.cl;
-	var namespaces = _v0.cu;
-	var declarations = _v0.di;
+	var charset = _v0.b6;
+	var imports = _v0.cm;
+	var namespaces = _v0.cv;
+	var declarations = _v0.dj;
 	return $rtfeldman$elm_css$Css$Structure$Output$charsetToString(charset) + (A3($rtfeldman$elm_css$Css$String$mapJoin, $rtfeldman$elm_css$Css$Structure$Output$importToString, '\n', imports) + (A3($rtfeldman$elm_css$Css$String$mapJoin, $rtfeldman$elm_css$Css$Structure$Output$namespaceToString, '\n', namespaces) + (A3($rtfeldman$elm_css$Css$String$mapJoin, $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration, '\n', declarations) + '')));
 };
 var $elm$core$List$concat = function (lists) {
@@ -8029,7 +8050,7 @@ var $rtfeldman$elm_css$Css$Preprocess$Resolve$applyStyles = F2(
 						_List_fromArray(
 							[
 								$rtfeldman$elm_css$Css$Structure$Keyframes(
-								{dh: str, dG: name})
+								{di: str, dH: name})
 							]));
 				case 4:
 					var _v12 = styles.a;
@@ -8163,13 +8184,13 @@ var $rtfeldman$elm_css$Css$Preprocess$Resolve$toDeclarations = function (snippet
 	}
 };
 var $rtfeldman$elm_css$Css$Preprocess$Resolve$toStructure = function (_v0) {
-	var charset = _v0.b5;
-	var imports = _v0.cl;
-	var namespaces = _v0.cu;
-	var snippets = _v0.cQ;
+	var charset = _v0.b6;
+	var imports = _v0.cm;
+	var namespaces = _v0.cv;
+	var snippets = _v0.cR;
 	var declarations = $rtfeldman$elm_css$Css$Preprocess$Resolve$extract(
 		A2($elm$core$List$concatMap, $rtfeldman$elm_css$Css$Preprocess$unwrapSnippet, snippets));
-	return {b5: charset, di: declarations, cl: imports, cu: namespaces};
+	return {b6: charset, dj: declarations, cm: imports, cv: namespaces};
 };
 var $rtfeldman$elm_css$Css$Preprocess$Resolve$compile = function (sheet) {
 	return $rtfeldman$elm_css$Css$Structure$Output$prettyPrint(
@@ -8194,7 +8215,7 @@ var $rtfeldman$elm_css$VirtualDom$Styled$makeSnippet = F2(
 			]);
 	});
 var $rtfeldman$elm_css$Css$Preprocess$stylesheet = function (snippets) {
-	return {b5: $elm$core$Maybe$Nothing, cl: _List_Nil, cu: _List_Nil, cQ: snippets};
+	return {b6: $elm$core$Maybe$Nothing, cm: _List_Nil, cv: _List_Nil, cR: snippets};
 };
 var $rtfeldman$elm_css$Css$Structure$ClassSelector = function (a) {
 	return {$: 0, a: a};
@@ -8884,17 +8905,17 @@ var $author$project$View$Statistics$displays = _List_fromArray(
 	[
 		{
 		a5: A3($rtfeldman$elm_css$Css$rgb, 79, 79, 79),
-		a6: function ($) {
-			return $.bz;
+		a6: function (s) {
+			return s.bM.bz;
 		},
 		av: function (s) {
 			return s + 'kg';
 		},
-		ba: function ($) {
-			return $.bz;
+		ba: function (s) {
+			return s.bM.bz;
 		},
 		bc: 'Fish',
-		bN: function (_v0) {
+		bO: function (_v0) {
 			return true;
 		}
 	},
@@ -8910,13 +8931,13 @@ var $author$project$View$Statistics$displays = _List_fromArray(
 			return $.bG;
 		},
 		bc: 'Money',
-		bN: function (_v1) {
+		bO: function (_v1) {
 			return true;
 		}
 	}
 	]);
 var $rtfeldman$elm_css$Css$listStyleType = $rtfeldman$elm_css$Css$prop1('list-style-type');
-var $rtfeldman$elm_css$Css$none = {an: 0, b0: 0, z: 0, b: 0, k: 0, du: 0, cn: 0, bD: 0, az: 0, ad: 0, M: 0, d: 0, c: 0, bI: 0, bh: 0, dV: 0, J: 0, bi: 0, d1: 0, aE: 0, aj: 0, C: 0, h: 0, eb: 0, O: 'none'};
+var $rtfeldman$elm_css$Css$none = {an: 0, b1: 0, z: 0, b: 0, k: 0, dv: 0, co: 0, bD: 0, az: 0, ad: 0, M: 0, d: 0, c: 0, bI: 0, bh: 0, dW: 0, J: 0, bi: 0, d2: 0, aE: 0, aj: 0, C: 0, h: 0, ec: 0, O: 'none'};
 var $rtfeldman$elm_css$Css$color = function (c) {
 	return A2($rtfeldman$elm_css$Css$property, 'color', c.O);
 };
@@ -8973,7 +8994,7 @@ var $erosson$number_suffix$NumberSuffix$dropIntDecimals = function (val) {
 };
 var $cuducos$elm_format_number$Parser$FormattedNumber = F5(
 	function (original, integers, decimals, prefix, suffix) {
-		return {dg: decimals, co: integers, cA: original, bK: prefix, bQ: suffix};
+		return {dh: decimals, cp: integers, cB: original, bK: prefix, bR: suffix};
 	});
 var $cuducos$elm_format_number$Parser$Negative = 2;
 var $cuducos$elm_format_number$Parser$Positive = 0;
@@ -8990,9 +9011,9 @@ var $cuducos$elm_format_number$Parser$classify = function (formatted) {
 		$elm$core$String$concat(
 			A2(
 				$elm$core$List$append,
-				formatted.co,
-				$elm$core$List$singleton(formatted.dg))));
-	return onlyZeros ? 1 : ((formatted.cA < 0) ? 2 : 0);
+				formatted.cp,
+				$elm$core$List$singleton(formatted.dh))));
+	return onlyZeros ? 1 : ((formatted.cB < 0) ? 2 : 0);
 };
 var $elm$core$List$drop = F2(
 	function (n, list) {
@@ -9244,7 +9265,7 @@ var $cuducos$elm_format_number$Parser$parse = F2(
 		var parts = A2(
 			$elm$core$String$split,
 			'.',
-			A2($myrho$elm_round$Round$round, locale.dg, original));
+			A2($myrho$elm_round$Round$round, locale.dh, original));
 		var integers = $cuducos$elm_format_number$Parser$splitThousands(
 			A2(
 				$elm$core$String$filter,
@@ -9264,18 +9285,18 @@ var $cuducos$elm_format_number$Parser$parse = F2(
 			case 2:
 				return _Utils_update(
 					partial,
-					{bK: locale.dI, bQ: locale.dJ});
+					{bK: locale.dJ, bR: locale.dK});
 			case 0:
 				return _Utils_update(
 					partial,
-					{bK: locale.dW, bQ: locale.dX});
+					{bK: locale.dX, bR: locale.dY});
 			default:
 				return partial;
 		}
 	});
 var $cuducos$elm_format_number$Stringfy$formatDecimals = F2(
 	function (locale, decimals) {
-		return (decimals === '') ? '' : _Utils_ap(locale.df, decimals);
+		return (decimals === '') ? '' : _Utils_ap(locale.dg, decimals);
 	});
 var $cuducos$elm_format_number$Stringfy$removeZeros = function (decimals) {
 	return (A2($elm$core$String$right, 1, decimals) !== '0') ? decimals : $cuducos$elm_format_number$Stringfy$removeZeros(
@@ -9284,12 +9305,12 @@ var $cuducos$elm_format_number$Stringfy$removeZeros = function (decimals) {
 var $cuducos$elm_format_number$Stringfy$humanizeDecimals = F3(
 	function (locale, strategy, decimals) {
 		if ((decimals === '') || _Utils_eq(
-			A2($elm$core$String$repeat, locale.dg, '0'),
+			A2($elm$core$String$repeat, locale.dh, '0'),
 			decimals)) {
 			return '';
 		} else {
 			if (!strategy) {
-				return _Utils_ap(locale.df, decimals);
+				return _Utils_ap(locale.dg, decimals);
 			} else {
 				return A2(
 					$cuducos$elm_format_number$Stringfy$formatDecimals,
@@ -9308,11 +9329,11 @@ var $cuducos$elm_format_number$Stringfy$stringfy = F3(
 				return $cuducos$elm_format_number$Stringfy$formatDecimals(locale);
 			}
 		}();
-		var integers = A2($elm$core$String$join, locale.d7, formatted.co);
-		var decimals = stringfyDecimals(formatted.dg);
+		var integers = A2($elm$core$String$join, locale.d8, formatted.cp);
+		var decimals = stringfyDecimals(formatted.dh);
 		return $elm$core$String$concat(
 			_List_fromArray(
-				[formatted.bK, integers, decimals, formatted.bQ]));
+				[formatted.bK, integers, decimals, formatted.bR]));
 	});
 var $cuducos$elm_format_number$FormatNumber$format = F2(
 	function (locale, number_) {
@@ -9333,16 +9354,16 @@ var $erosson$number_suffix$NumberSuffix$formatLocaleSigfigs = F3(
 			$cuducos$elm_format_number$FormatNumber$format,
 			_Utils_update(
 				locale,
-				{dg: decimals}),
+				{dh: decimals}),
 			A3($erosson$number_suffix$NumberSuffix$roundTo, $elm$core$Basics$truncate, decimals, val));
 	});
 var $erosson$number_suffix$NumberSuffix$formatSigExp = F3(
 	function (_v0, sig0, exp) {
-		var getSuffix = _v0.ds;
-		var sigfigs = _v0.d3;
+		var getSuffix = _v0.dt;
+		var sigfigs = _v0.d4;
 		var locale = _v0.bE;
 		var suffixDivisor = _v0.bo;
-		var minSuffix = _v0.dE;
+		var minSuffix = _v0.dF;
 		var sig = sig0 * A2(
 			$elm$core$Basics$pow,
 			10,
@@ -9457,16 +9478,16 @@ var $erosson$number_suffix$NumberSuffixData$standard = $elm$core$Array$fromList(
 var $erosson$number_suffix$NumberSuffix$suffixStandard = $erosson$number_suffix$NumberSuffix$getListSuffix($erosson$number_suffix$NumberSuffixData$standard);
 var $cuducos$elm_format_number$FormatNumber$Locales$Locale = F7(
 	function (decimals, thousandSeparator, decimalSeparator, negativePrefix, negativeSuffix, positivePrefix, positiveSuffix) {
-		return {df: decimalSeparator, dg: decimals, dI: negativePrefix, dJ: negativeSuffix, dW: positivePrefix, dX: positiveSuffix, d7: thousandSeparator};
+		return {dg: decimalSeparator, dh: decimals, dJ: negativePrefix, dK: negativeSuffix, dX: positivePrefix, dY: positiveSuffix, d8: thousandSeparator};
 	});
 var $cuducos$elm_format_number$FormatNumber$Locales$usLocale = A7($cuducos$elm_format_number$FormatNumber$Locales$Locale, 2, ',', '.', '−', '', '', '');
 var $erosson$number_suffix$NumberSuffix$standardConfig = {
-	ds: $erosson$number_suffix$NumberSuffix$suffixStandard,
+	dt: $erosson$number_suffix$NumberSuffix$suffixStandard,
 	bE: _Utils_update(
 		$cuducos$elm_format_number$FormatNumber$Locales$usLocale,
-		{dI: '-'}),
-	dE: 100000,
-	d3: 3,
+		{dJ: '-'}),
+	dF: 100000,
+	d4: 3,
 	bo: 3
 };
 var $rtfeldman$elm_css$Html$Styled$strong = $rtfeldman$elm_css$Html$Styled$node('strong');
@@ -9480,7 +9501,7 @@ var $author$project$View$Statistics$renderDisplay = F3(
 		var formatNumber = $erosson$number_suffix$NumberSuffix$format(
 			_Utils_update(
 				$erosson$number_suffix$NumberSuffix$standardConfig,
-				{ds: $erosson$number_suffix$NumberSuffix$suffixStandardShort, dE: 1000, d3: 3}));
+				{dt: $erosson$number_suffix$NumberSuffix$suffixStandardShort, dF: 1000, d4: 3}));
 		return A2(
 			$rtfeldman$elm_css$Html$Styled$li,
 			_List_fromArray(
@@ -9603,20 +9624,20 @@ var $author$project$View$view = F2(
 	});
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{
-		dx: function (_v0) {
+		dy: function (_v0) {
 			return _Utils_Tuple2(
 				_Utils_Tuple2(
 					$author$project$State$Delta$gradient($author$project$State$initial),
 					$author$project$State$initial),
 				$elm$core$Platform$Cmd$none);
 		},
-		d4: function (_v1) {
+		d5: function (_v1) {
 			return A2(
 				$elm$time$Time$every,
 				1000,
 				$elm$core$Basics$always($author$project$Main$AdvanceGameClock));
 		},
-		ea: F2(
+		eb: F2(
 			function (msg, _v2) {
 				var delta = _v2.a;
 				var state = _v2.b;
@@ -9637,7 +9658,7 @@ var $author$project$Main$main = $elm$browser$Browser$element(
 						A2($elm$core$Platform$Cmd$map, $author$project$Main$GameEvent, cmd));
 				}
 			}),
-		ec: function (_v5) {
+		ed: function (_v5) {
 			var delta = _v5.a;
 			var state = _v5.b;
 			return A2(
