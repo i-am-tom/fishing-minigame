@@ -38,8 +38,8 @@ displays =
     [ { label = "Fish"
       , color = rgb 79 79 79
       , shouldShow = \_ -> True
-      , current = .fish
-      , gradient = .fish
+      , current = \s -> s.resources.fish
+      , gradient = \s -> s.resources.fish
       , format = \s -> s ++ "kg"
       }
     , { label = "Money"

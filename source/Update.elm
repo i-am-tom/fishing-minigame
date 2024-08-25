@@ -1,6 +1,7 @@
 module Update exposing (Event(..), update)
 
 import AssocList as Dict exposing (Dict)
+import Constants
 import Random exposing (Generator)
 import State exposing (State)
 import State.Delta exposing (Delta, gradient, step)
@@ -44,7 +45,28 @@ update msg model =
             ( model, results )
 
         CatchFish ->
-            ( { model | fish = model.fish + 1 }, Cmd.none )
+            let
+                resources =
+                    model.resources
+            in
+            ( { model
+                | resources =
+                    { resources
+                        | fish = model.resources.fish + 1
+                    }
+              }
+            , Cmd.none
+            )
 
         SellFish ->
-            ( { model | fish = 0, money = model.money + model.fish * 5 }, Cmd.none )
+            let
+                resources =
+                    model.resources
+            in
+            ( { model
+                | resources = { resources | fish = 0 }
+                , money =
+                    model.money + model.resources.fish * Constants.fishPricePerKilo
+              }
+            , Cmd.none
+            )

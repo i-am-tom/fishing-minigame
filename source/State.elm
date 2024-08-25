@@ -1,32 +1,43 @@
-module State exposing (State, deserialize, initial, serialize)
+module State exposing (Resources, State, deserialize, initial, serialize)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
 
 
 type alias State =
+    { money : Float
+    , resources : Resources
+    }
+
+
+type alias Resources =
     { fish : Float
-    , money : Float
     }
 
 
 initial : State
 initial =
-    { fish = 0
-    , money = 0
+    { money = 0
+    , resources =
+        { fish = 0
+        }
     }
 
 
 serialize : State -> Encode.Value
 serialize state =
     Encode.object
-        [ ( "fish", Encode.float state.fish )
-        , ( "money", Encode.float state.money )
+        [ ( "money", Encode.float state.money )
+        , ( "resources", Encode.object [ ( "fish", Encode.float state.resources.fish ) ] )
         ]
 
 
 deserialize : Decoder State
 deserialize =
     Decode.map2 State
-        (Decode.field "fish" Decode.float)
         (Decode.field "money" Decode.float)
+        (Decode.field "resources"
+            (Decode.map Resources
+                (Decode.field "fish" Decode.float)
+            )
+        )
