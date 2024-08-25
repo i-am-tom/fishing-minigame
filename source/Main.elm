@@ -3,6 +3,7 @@ module Main exposing (main)
 import Browser exposing (element)
 import Html exposing (button, div, p, text)
 import Html.Events exposing (onClick)
+import Html.Styled exposing (toUnstyled)
 import State exposing (State)
 import State.Delta exposing (Delta, gradient, step)
 import Time
@@ -27,8 +28,9 @@ main =
                 )
         , view =
             \( delta, state ) ->
-                Html.map GameEvent <|
-                    view delta state
+                view delta state
+                    |> toUnstyled
+                    |> Html.map GameEvent
         , update =
             \msg ( delta, state ) ->
                 case msg of
